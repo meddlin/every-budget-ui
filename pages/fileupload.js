@@ -36,7 +36,7 @@ import { usePapaParse } from 'react-papaparse';
  * - Array.map index as key, for unavailable IDs: https://reactjs.org/docs/lists-and-keys.html
  */
 
-function FileUpload() {
+export default function FileUpload() {
     const [selectedFile, setSelectedFile] = useState();
     const [isSelected, setIsSelected] = useState(false);
     // const [dataContents, setDataContents] = useState();
@@ -97,5 +97,3 @@ function FileUpload() {
         </div>
     );
 }
-
-export default FileUpload;
