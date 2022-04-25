@@ -1,34 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Budget + Register Project
 
-## Getting Started
+I wanted an app to manage my personal budget and related documents, data.
 
-First, run the development server:
+At its core, a budget can be implemented as a glorified spreadsheet. Some clever Excel
+scripting (or LibreOffice or other software), and you can build a _really nice_ budget
+solution. A few steps further and apps like YNAB, Mint, EveryDollar, etc. overlay a 
+nice UI/UX on top of this data.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+However, it breaks down at integration. Nearly every budgeting application requires at
+least a $50-$120/yr subscription for bank transaction(s) integration. (Diving into this,
+it's due to integration permissions, SDKs, libraries, etc. ultimately driven by the banks
+providing the access and data. So, the apps are charging a premium, but justifiably so.)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+In addition, with the rising amount of consumer payment integrations and subscription 
+services...your checking account register can have payments "_hidden behind_" the names
+of a payment integrator on the banking register.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+> Ex: Paying for things via Paypal. 
+> --> Using the Starbucks app, an easy way to configure payment information is via Paypal,
+especially if you're already using it for other services. The entry on the check. acct. 
+will say "Paypal..." instead of "Starbucks".
+> --> It's the same scenario for Apple services (i.e. iCloud storage)
+> --> Paying for services, ...via Apple ...via Paypal
+> 
+>   This is where it gets hairy.
+>   - Checking account register says: "Paypal"
+>   - Paypal history says: "Apple Services"
+>   - Apple payment history gives the actual detail of what was paid
+_*So!*_ this left with me with each time I sat down to 
