@@ -1,5 +1,3 @@
-
-
 export default function BudgetComponent() {
     return (
         <div className="flex flex-col min-w-[50%] border-2 border-rose-500">
@@ -24,7 +22,7 @@ export default function BudgetComponent() {
                         </div>
                     </li>
                 </ul>
-                
+
                 <div>more stuff...</div>
             </div>
 
