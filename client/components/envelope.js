@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Input from './input';
 
 export default function Envelope() {
     const [title, setTitle] = useState('Test Env.');
@@ -7,10 +8,10 @@ export default function Envelope() {
 
     return (
         <>
-            <div className="">{title}</div>
+            <Input placeholder={title} />
             <div className="flex flex-row">
-                <div>{spent}</div>
-                <div>{budgeted}</div>
+                <Input placeholder={spent} />
+                <Input placeholder={budgeted} />
             </div>
         </>
     );
