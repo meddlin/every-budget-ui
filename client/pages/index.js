@@ -4,7 +4,7 @@ import { useState } from 'react';
 import styles from '../styles/Home.module.css'
 import { Tab } from '@headlessui/react'
 
-import BudgetComponent from '../components/budget-component'
+import Category from '../components/category'
 
 export default function Home() {
   const [categories, setCategories] = useState([]);
@@ -80,7 +80,7 @@ export default function Home() {
               <main className={styles.main}>
                 {categories && categories.length > 0 ? 
                   categories.map((category, idx) => {
-                    return (<BudgetComponent key={idx} />);
+                    return (<Category key={idx} />);
                   } ) : 'no cats'}
 
                 <button onClick={addCategory}>Add</button>
