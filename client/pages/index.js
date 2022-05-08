@@ -1,24 +1,33 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react';
 import styles from '../styles/Home.module.css'
 import { Tab } from '@headlessui/react'
 
 import BudgetComponent from '../components/budget-component'
 
 export default function Home() {
+  const [categories, setCategories] = useState([]);
 
   const newFetch = () => {
     fetch('http://127.0.0.1:5000/hello')
-    .then(function(response) {
-      if (!response.ok) throw new Error(`Error: ${response.status}`);
-
-      console.log(response);
-    })
-    .catch(function(error) {
-      console.log('Looks like there was a problem: ', error);
-    });
+      .then(function(response) {
+        if (!response.ok) throw new Error(`Error: ${response.status}`);
+        console.log(response);
+      })
+      .catch(function(error) {
+        console.log('Looks like there was a problem: ', error);
+      });
   }
 
+  const addCategory = () => {
+    console.log('add category');
+    let testCat = {
+      title: 'Test Category',
+      amount: ''
+    }
+    setCategories(categories => [...categories, testCat])
+  }
 
   return (
     <div className={styles.container}>
@@ -69,9 +78,12 @@ export default function Home() {
                 - All of the data (except for settings) for this app really needs to be accessible on the same page anyway
               */}
               <main className={styles.main}>
-                <BudgetComponent />
-                <BudgetComponent />
-                <BudgetComponent />
+                {categories && categories.length > 0 ? 
+                  categories.map((category, idx) => {
+                    return (<BudgetComponent key={idx} />);
+                  } ) : 'no cats'}
+
+                <button onClick={addCategory}>Add</button>
               </main>
 
             </Tab.Panel>
