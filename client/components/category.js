@@ -1,8 +1,11 @@
 import { useState } from "react";
 import Envelope from "./envelope";
+import EnvelopeDetail from "./envelope-detail";
+import Input from './input';
 
 export default function Category() {
     const [title, setTitle] = useState('Category Title');
+    const [showDetail, setShowDetail] = useState(false);
     const [envelopes, setEnvelopes] = useState([]);
     const addEnvelope = () => {
         let newEnv = {
@@ -14,9 +17,20 @@ export default function Category() {
         setEnvelopes(envelopes => [...envelopes, newEnv]);
     }
 
+    const removeEnvelope = () => {
+        console.log('remove')
+    }
+
+    const showEnvelopDetail = () => {
+        if (showDetail) setShowDetail(!showDetail)
+        else setShowDetail(true);
+    }
+
     return (
         <div className="flex flex-col min-w-[50%] border-2 border-rose-500">
-            <div className="flex-1">{title}</div>
+            <div className="flex-1">
+                <Input />
+            </div>
 
             <div className="flex-3">
                 <ul>
@@ -25,14 +39,18 @@ export default function Category() {
                             return (
                                 <li className="flex flex-row justify-between">
                                     <Envelope key={idx} />
+                                    <button onClick={showEnvelopDetail}>VIEW DET.</button>
                                 </li>
                             );
-                        }) : 'No Envelopes'
+                        }) : 'Create an envelope'
                     }
                 </ul>
 
                 <button onClick={addEnvelope}>Add...</button>
+                <button onClick={removeEnvelope}>Remove...</button>
             </div>
+
+            {showDetail ? <EnvelopeDetail /> : ''}
 
         </div>
     );

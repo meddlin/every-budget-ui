@@ -81,7 +81,8 @@ export default function Home() {
                 {categories && categories.length > 0 ? 
                   categories.map((category, idx) => {
                     return (<Category key={idx} />);
-                  } ) : 'no cats'}
+                  } ) : 
+                  <Category key={0} />}
 
                 <button onClick={addCategory}>Add</button>
               </main>
