@@ -17,8 +17,12 @@ export default function Category() {
         setEnvelopes(envelopes => [...envelopes, newEnv]);
     }
 
-    const removeEnvelope = () => {
-        console.log('remove')
+    const removeEnvelope = (event) => {
+        /**
+         * NOTE: https://stackoverflow.com/questions/57341541/removing-object-from-array-using-hooks-usestate
+         */
+        const name = event.target.getAttribute("name");
+        setEnvelopes( envelopes.filter(env => env.title !== name) );
     }
 
     const showEnvelopDetail = () => {
@@ -40,6 +44,7 @@ export default function Category() {
                                 <li className="flex flex-row justify-between">
                                     <Envelope key={idx} />
                                     <button onClick={showEnvelopDetail}>VIEW DET.</button>
+                                    <button onClick={removeEnvelope} name={env.title}>Remove...</button>
                                 </li>
                             );
                         }) : 'Create an envelope'
@@ -47,7 +52,6 @@ export default function Category() {
                 </ul>
 
                 <button onClick={addEnvelope}>Add...</button>
-                <button onClick={removeEnvelope}>Remove...</button>
             </div>
 
             {showDetail ? <EnvelopeDetail /> : ''}
