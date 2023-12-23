@@ -1,5 +1,7 @@
 # Budget + Register Project
 
+> This project is related to: https://github.com/meddlin/every-budget-api
+
 I wanted an app to manage my personal budget and related documents, data.
 
 At its core, a budget can be implemented as a glorified spreadsheet. Some clever Excel
