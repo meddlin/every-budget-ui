@@ -1,32 +1,42 @@
-# Budget + Register Project
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-> This project is related to: https://github.com/meddlin/every-budget-api
+## Getting Started
 
-I wanted an app to manage my personal budget and related documents, data.
+Set proper `npm` version:
 
-At its core, a budget can be implemented as a glorified spreadsheet. Some clever Excel
-scripting (or LibreOffice or other software), and you can build a _really nice_ budget
-solution. A few steps further and apps like YNAB, Mint, EveryDollar, etc. overlay a 
-nice UI/UX on top of this data.
+If necessary: `nvm install --lts`
 
-However, it breaks down at integration. Nearly every budgeting application requires at
-least a $50-$120/yr subscription for bank transaction(s) integration. (Diving into this,
-it's due to integration permissions, SDKs, libraries, etc. ultimately driven by the banks
-providing the access and data. So, the apps are charging a premium, but justifiably so.)
+> `nvm use [version]` -> ex: `nvm use 20.10`
 
-In addition, with the rising amount of consumer payment integrations and subscription 
-services...your checking account register can have payments "_hidden behind_" the names
-of a payment integrator on the banking register.
+Then, run the development server:
 
-> Ex: Paying for things via Paypal. 
-> --> Using the Starbucks app, an easy way to configure payment information is via Paypal,
-especially if you're already using it for other services. The entry on the check. acct. 
-will say "Paypal..." instead of "Starbucks".
-> --> It's the same scenario for Apple services (i.e. iCloud storage)
-> --> Paying for services, ...via Apple ...via Paypal
-> 
->   This is where it gets hairy.
->   - Checking account register says: "Paypal"
->   - Paypal history says: "Apple Services"
->   - Apple payment history gives the actual detail of what was paid
-_*So!*_ this left with me with each time I sat down to 
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
