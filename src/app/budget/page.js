@@ -1,29 +1,24 @@
-import { PaperClipIcon } from '@heroicons/react/20/solid'
 import Category from './category';
 
 const Budget = () => {
+    const categories = [
+        {
+            name: 'Income',
+            description: 'Money coming in'
+        },
+        {
+            name: 'Housing',
+            description: 'Any regular expense on the house'
+        }
+    ];
+    
     return (
         <div className="">
             <h1>Budget</h1>
 
-            {/* <!-- Categories --> */}
-            {/* <div>
-                <h2>Income</h2>
-                <ul>
-                    <li>Paycheck</li>
-                </ul>
-            </div>
-            <div>
-                <h2>Housing</h2>
-                <ul>
-                    <li>Mortgage</li>
-                    <li>Electric</li>
-                </ul>
-            </div> */}
-
-            <Category />
-            <Category />
-
+            {categories.map((category) => (
+                <Category name={category.name} description={category.description} />
+            ))}
 
         </div>
     )
