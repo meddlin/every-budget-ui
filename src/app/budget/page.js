@@ -1,6 +1,20 @@
+'use client';
+
 import Category from './category';
+import { useState, useEffect } from 'react';
 
 const Budget = () => {
+
+    // const [categories, setCategories] = useState([]);
+    // useEffect(() => {
+    //     const fetchCategories = async () => {
+    //         const response = await fetch('https://localhost:7291/api/Budgets/Get');
+    //         const data = await response.json();
+    //         setCategories(data);
+    //     };
+
+    //     fetchCategories();
+    // }, []);
 
     // Stub data
     const categories = [
@@ -13,7 +27,7 @@ const Budget = () => {
                 {
                     name: 'Paycheck',
                     planned: 0.00,
-                    spent: 0.00
+                    spent: 0.00 
                 }
             ]
         },
