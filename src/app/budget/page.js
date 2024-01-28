@@ -58,7 +58,7 @@ const Budget = () => {
     return (
         <div className="flex content-center justify-center">
 
-            <div>
+            <div className="w-1/2">
                 {categories.map((category, idx) => (
                     <Category 
                         key={idx}
