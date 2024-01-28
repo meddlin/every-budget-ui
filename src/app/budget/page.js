@@ -4,7 +4,6 @@ import Category from './category';
 import { useState, useEffect } from 'react';
 
 const Budget = () => {
-
     // const [categories, setCategories] = useState([]);
     // useEffect(() => {
     //     const fetchCategories = async () => {
@@ -57,17 +56,18 @@ const Budget = () => {
     ];
     
     return (
-        <div className="">
-            <h1>Budget</h1>
+        <div className="flex content-center justify-center">
 
-            {categories.map((category, idx) => (
-                <Category 
-                    key={idx}
-                    name={category.name} 
-                    description={category.description} 
-                    budgetItems={category.budgetItems}
-                />
-            ))}
+            <div>
+                {categories.map((category, idx) => (
+                    <Category 
+                        key={idx}
+                        name={category.name} 
+                        description={category.description} 
+                        budgetItems={category.budgetItems}
+                    />
+                ))}
+            </div>
 
         </div>
     )
