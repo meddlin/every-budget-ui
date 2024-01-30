@@ -1,6 +1,20 @@
+'use client';
+
 import Category from './category';
+import { useState, useEffect } from 'react';
+import SearchBar from './search';
 
 const Budget = () => {
+    // const [categories, setCategories] = useState([]);
+    // useEffect(() => {
+    //     const fetchCategories = async () => {
+    //         const response = await fetch('https://localhost:7291/api/Budgets/Get');
+    //         const data = await response.json();
+    //         setCategories(data);
+    //     };
+
+    //     fetchCategories();
+    // }, []);
 
     // Stub data
     const categories = [
@@ -26,7 +40,13 @@ const Budget = () => {
                 {
                     name: 'Mortgage',
                     planned: 0.00,
-                    spent: 0.00
+                    spent: 0.00,
+                    transactions: [
+                        {
+                            vendor: 'UWM',
+                            amount: 0.00
+                        }
+                    ]
                 },
                 {
                     name: 'Electric',
@@ -41,20 +61,21 @@ const Budget = () => {
             ]
         }
     ];
-    
+
     return (
-        <div className="">
-            <h1>Budget</h1>
+        <div className="flex content-center justify-center">
+            <SearchBar />
 
-            {categories.map((category, idx) => (
-                <Category 
-                    key={idx}
-                    name={category.name} 
-                    description={category.description} 
-                    budgetItems={category.budgetItems}
-                />
-            ))}
-
+            <div className="w-1/2">
+                {categories.map((category, idx) => (
+                    <Category
+                        key={idx}
+                        name={category.name}
+                        description={category.description}
+                        budgetItems={category.budgetItems}
+                    />
+                ))}
+            </div>
         </div>
     )
 };
