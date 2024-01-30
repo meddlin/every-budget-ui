@@ -1,3 +1,5 @@
+import MoneyDisplay from './money-display';
+
 const BudgetItem = ({ name, planned, spent, transactions }) => {
     return (
         <div className="border-t border-gray-100">
@@ -7,8 +9,12 @@ const BudgetItem = ({ name, planned, spent, transactions }) => {
                     <div className="flex"> {/* budget item main */}
                         <div className="w-3/4 text-sm font-medium text-gray-900">{name}</div>
                         <div className="w-1/4 flex justify-between">
-                            <div className="w-1/2 mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Planned: {planned}</div>
-                            <div className="w-1/2 mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">Spent: {spent}</div>
+                            <div className="w-1/2 mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <MoneyDisplay label="Planned" amount={planned} />
+                            </div>
+                            <div className="w-1/2 mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
+                                <MoneyDisplay label="Spent" amount={spent} />
+                            </div>
                         </div>
                     </div>
                     <div> {/* budget item transactions */}
