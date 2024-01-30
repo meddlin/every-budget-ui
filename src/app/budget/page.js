@@ -2,6 +2,7 @@
 
 import Category from './category';
 import { useState, useEffect } from 'react';
+import SearchBar from './search';
 
 const Budget = () => {
     // const [categories, setCategories] = useState([]);
@@ -26,7 +27,7 @@ const Budget = () => {
                 {
                     name: 'Paycheck',
                     planned: 0.00,
-                    spent: 0.00 
+                    spent: 0.00
                 }
             ]
         },
@@ -54,21 +55,21 @@ const Budget = () => {
             ]
         }
     ];
-    
+
     return (
         <div className="flex content-center justify-center">
+            <SearchBar />
 
             <div className="w-1/2">
                 {categories.map((category, idx) => (
-                    <Category 
+                    <Category
                         key={idx}
-                        name={category.name} 
-                        description={category.description} 
+                        name={category.name}
+                        description={category.description}
                         budgetItems={category.budgetItems}
                     />
                 ))}
             </div>
-
         </div>
     )
 };
