@@ -18,9 +18,15 @@ const BudgetItem = ({ name, planned, spent, transactions }) => {
                         </div>
                     </div>
                     <div> {/* budget item transactions */}
-                        {transactions && transactions.length > 0 ? 
+                        {transactions && transactions.length > 0 ?
                             transactions.map((transaction, idx) => (
-                                <dd key={idx} className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{transaction.name}</dd>
+                                // <dd key={idx} className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{transaction.vendor}</dd>
+                                <button
+                                    type="button"
+                                    className="rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                                >
+                                    View Transactions
+                                </button>
                             )) : (
                                 <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">No transactions</dd>
                             )

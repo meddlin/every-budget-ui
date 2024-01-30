@@ -40,7 +40,13 @@ const Budget = () => {
                 {
                     name: 'Mortgage',
                     planned: 0.00,
-                    spent: 0.00
+                    spent: 0.00,
+                    transactions: [
+                        {
+                            vendor: 'UWM',
+                            amount: 0.00
+                        }
+                    ]
                 },
                 {
                     name: 'Electric',

@@ -9,7 +9,13 @@ const Category = ({ name, description, budgetItems }) => {
             </div>
 
             {budgetItems && budgetItems.length > 0 ? budgetItems.map((budgetItem, idx) => (
-                <BudgetItem key={idx} name={budgetItem.name} planned={budgetItem.planned} spent={budgetItem.spent} />
+                <BudgetItem 
+                    key={idx} 
+                    name={budgetItem.name} 
+                    planned={budgetItem.planned} 
+                    spent={budgetItem.spent} 
+                    transactions={budgetItem.transactions}
+                />
             )) : <p>No items to show</p>}
 
         </div>
