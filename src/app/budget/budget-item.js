@@ -1,5 +1,17 @@
 import MoneyDisplay from './money-display';
 import { PrimaryButton, Button, EditButton, DeleteButton } from '../../components/buttons';
+import { 
+    BudgetItemEditModal, 
+    BudgetItemEditModalContents,
+    BudgetItemEditModalDismissButton, 
+    BudgetItemEditModalOpenButton 
+} from '@/components/budget-item-modals/edit-modals';
+import { 
+    BudgetItemDeleteModal, 
+    BudgetItemDeleteModalContents,
+    BudgetItemDeleteModalDismissButton,
+    BudgetItemDeleteModalOpenButton
+} from '@/components/budget-item-modals/delete-modals';
 
 const BudgetItem = ({ name, planned, spent, transactions }) => {
     return (
@@ -13,8 +25,33 @@ const BudgetItem = ({ name, planned, spent, transactions }) => {
 
                             <div className="flex-col">
                                 <div className="flex justify-between">
-                                    <EditButton onClick={() => alert('Edit clicked.')} />
-                                    <DeleteButton onClick={() => alert('Delete clicked.')} />
+                                    <BudgetItemEditModal>
+                                        <BudgetItemEditModalOpenButton>
+                                            <EditButton />
+                                        </BudgetItemEditModalOpenButton>
+                                        <BudgetItemEditModalContents title="Edit budget item">
+                                            <div className="text-black">
+                                                <p>TEST CONTENT</p>
+                                            </div>
+                                            <BudgetItemEditModalDismissButton>
+                                                <Button text="Close" />
+                                            </BudgetItemEditModalDismissButton>
+                                        </BudgetItemEditModalContents>
+                                    </BudgetItemEditModal>
+                                    
+                                    <BudgetItemDeleteModal>
+                                        <BudgetItemDeleteModalOpenButton>
+                                            <DeleteButton />
+                                        </BudgetItemDeleteModalOpenButton>
+                                        <BudgetItemDeleteModalContents title="Delete budget item">
+                                            <div className="text-black">
+                                                test content
+                                            </div>
+                                            <BudgetItemDeleteModalDismissButton>
+                                                <Button text="Close" />
+                                            </BudgetItemDeleteModalDismissButton>
+                                        </BudgetItemDeleteModalContents>
+                                    </BudgetItemDeleteModal>
                                 </div>
 
                                 <div className="flex-col">
