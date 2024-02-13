@@ -1,4 +1,5 @@
 import MoneyDisplay from './money-display';
+import BudgetItemEditForm from './budget-item/edit-form';
 import { PrimaryButton, Button, EditButton, DeleteButton } from '../../components/buttons';
 import { 
     BudgetItemEditModal, 
@@ -29,10 +30,10 @@ const BudgetItem = ({ name, planned, spent, transactions }) => {
                                         <BudgetItemEditModalOpenButton>
                                             <EditButton />
                                         </BudgetItemEditModalOpenButton>
-                                        <BudgetItemEditModalContents title="Edit budget item">
-                                            <div className="text-black">
-                                                <p>TEST CONTENT</p>
-                                            </div>
+                                        <BudgetItemEditModalContents>
+                                            
+                                            <BudgetItemEditForm name={name} planned={planned} spent={spent} />
+
                                             <BudgetItemEditModalDismissButton>
                                                 <Button text="Close" />
                                             </BudgetItemEditModalDismissButton>
