@@ -6,6 +6,7 @@ const BudgetItemEditForm = ({ name, planned, spent }) => {
     const EditSchema = object();
 
     const initialValues = {
+        name: name || '',
         planned: planned || '',
         spent: spent || ''
     };
