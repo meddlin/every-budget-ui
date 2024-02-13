@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { PencilSquareIcon, XCircleIcon } from '@heroicons/react/20/solid';
 
 const PrimaryButton = ({ text, onClick }) => {
     return (
@@ -12,8 +13,45 @@ const PrimaryButton = ({ text, onClick }) => {
     );
 };
 
+const Button = ({ text, onClick, children }) => {
+    return (
+        <button
+            type="button"
+            className="rounded bg-slate-400 px-2 py-1 text-xs font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            onClick={onClick}
+        >
+            {text}
+            {children}
+        </button>
+    );
+};
+
+const EditButton = ({ onClick }) => {
+    return (
+        <Button onClick={onClick}>
+            <PencilSquareIcon className="h-5 w-5" aria-hidden="true" />
+        </Button>
+    );
+};
+const DeleteButton = ({ onClick }) => {
+    return (
+        <Button onClick={onClick}>
+            <XCircleIcon className="h-5 w-5" aria-hidden="true" />
+        </Button>
+    );
+};
+
 PrimaryButton.propTypes = {
     text: PropTypes.string.isRequired
 };
 
-export default PrimaryButton;
+Button.propTypes = {
+    text: PropTypes.string.isRequired
+};
+
+export { 
+    PrimaryButton, 
+    Button,
+    EditButton,
+    DeleteButton
+};
