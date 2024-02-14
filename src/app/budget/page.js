@@ -5,6 +5,53 @@ import { useState, useEffect } from 'react';
 import SearchBar from './search';
 
 const Budget = () => {
+    const [stateCategories, setStateCategories] = useState(
+        [
+            {
+                name: 'Income',
+                description: 'Money coming in',
+                planned: 0.00,
+                spent: 0.00,
+                budgetItems: [
+                    {
+                        name: 'Paycheck',
+                        planned: 0.00,
+                        spent: 0.00
+                    }
+                ]
+            },
+            {
+                name: 'Housing',
+                description: 'Any regular expense on the house',
+                planned: 0.00,
+                spent: 0.00,
+                budgetItems: [
+                    {
+                        name: 'Mortgage',
+                        planned: 0.00,
+                        spent: 0.00,
+                        transactions: [
+                            {
+                                vendor: 'UWM',
+                                amount: 0.00
+                            }
+                        ]
+                    },
+                    {
+                        name: 'Electric',
+                        planned: 0.00,
+                        spent: 0.00
+                    },
+                    {
+                        name: 'Water',
+                        planned: 0.00,
+                        spent: 0.00
+                    }
+                ]
+            }
+        ]
+    );
+
     // const [categories, setCategories] = useState([]);
     // useEffect(() => {
     //     const fetchCategories = async () => {
@@ -17,57 +64,57 @@ const Budget = () => {
     // }, []);
 
     // Stub data
-    const categories = [
-        {
-            name: 'Income',
-            description: 'Money coming in',
-            planned: 0.00,
-            spent: 0.00,
-            budgetItems: [
-                {
-                    name: 'Paycheck',
-                    planned: 0.00,
-                    spent: 0.00
-                }
-            ]
-        },
-        {
-            name: 'Housing',
-            description: 'Any regular expense on the house',
-            planned: 0.00,
-            spent: 0.00,
-            budgetItems: [
-                {
-                    name: 'Mortgage',
-                    planned: 0.00,
-                    spent: 0.00,
-                    transactions: [
-                        {
-                            vendor: 'UWM',
-                            amount: 0.00
-                        }
-                    ]
-                },
-                {
-                    name: 'Electric',
-                    planned: 0.00,
-                    spent: 0.00
-                },
-                {
-                    name: 'Water',
-                    planned: 0.00,
-                    spent: 0.00
-                }
-            ]
-        }
-    ];
+    // const categories = [
+    //     {
+    //         name: 'Income',
+    //         description: 'Money coming in',
+    //         planned: 0.00,
+    //         spent: 0.00,
+    //         budgetItems: [
+    //             {
+    //                 name: 'Paycheck',
+    //                 planned: 0.00,
+    //                 spent: 0.00
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         name: 'Housing',
+    //         description: 'Any regular expense on the house',
+    //         planned: 0.00,
+    //         spent: 0.00,
+    //         budgetItems: [
+    //             {
+    //                 name: 'Mortgage',
+    //                 planned: 0.00,
+    //                 spent: 0.00,
+    //                 transactions: [
+    //                     {
+    //                         vendor: 'UWM',
+    //                         amount: 0.00
+    //                     }
+    //                 ]
+    //             },
+    //             {
+    //                 name: 'Electric',
+    //                 planned: 0.00,
+    //                 spent: 0.00
+    //             },
+    //             {
+    //                 name: 'Water',
+    //                 planned: 0.00,
+    //                 spent: 0.00
+    //             }
+    //         ]
+    //     }
+    // ];
 
     return (
         <div className="flex content-center justify-center">
             <SearchBar />
 
             <div className="w-1/2">
-                {categories.map((category, idx) => (
+                {stateCategories.map((category, idx) => (
                     <Category
                         key={idx}
                         name={category.name}
@@ -75,6 +122,16 @@ const Budget = () => {
                         budgetItems={category.budgetItems}
                     />
                 ))}
+
+                <button onClick={() => setStateCategories([
+                    ...stateCategories, { 
+                        name: 'new name', 
+                        description: 'new desc', 
+                        planned: 100.00, 
+                        spent: 21.00,
+                        budgetItems: []
+                    }
+                ])}>Add Category</button>
             </div>
         </div>
     )
