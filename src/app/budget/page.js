@@ -53,23 +53,24 @@ import { useCategories } from '../../utility/fetchers';
 // ];
 
 const Budget = () => {
+    
+    // const initialCategories = [
+    //     {
+    //                 name: 'Income',
+    //                 description: 'Money coming in',
+    //                 planned: 0.00,
+    //                 spent: 0.00,
+    //                 budgetItems: [
+    //                     {
+    //                         name: 'Paycheck',
+    //                         planned: 0.00,
+    //                         spent: 0.00
+    //                     }
+    //                 ]
+    //             }
+    // ];
     const { fetchedCategories, isLoadingCategories, isErrorCategories } = useCategories();
-    const initialCategories = [
-        {
-                    name: 'Income',
-                    description: 'Money coming in',
-                    planned: 0.00,
-                    spent: 0.00,
-                    budgetItems: [
-                        {
-                            name: 'Paycheck',
-                            planned: 0.00,
-                            spent: 0.00
-                        }
-                    ]
-                }
-    ];
-    const [categories, setCategories] = useState(initialCategories);
+    const [categories, setCategories] = useState(fetchedCategories);
 
     /**
      * Constructor function for Category
@@ -92,18 +93,7 @@ const Budget = () => {
             return [newCategory()]
         }        
     }
-
-    // const [categories, setCategories] = useState([]);
-    // useEffect(() => {
-    //     const fetchCategories = async () => {
-    //         const response = await fetch('https://localhost:7291/api/Budgets/Get');
-    //         const data = await response.json();
-    //         setCategories(data);
-    //     };
-
-    //     fetchCategories();
-    // }, []);
-
+    
     return (
         <div className="flex flex-col content-center justify-center">
             <div className="flex">
@@ -112,10 +102,6 @@ const Budget = () => {
                 </div>
                 <div className="w-1/2">
                     <SearchBar />
-
-                    <p className="text-white">
-                        {fetchedCategories && fetchedCategories !== undefined ? fetchedCategories.toString() : 'no fetched data'}
-                    </p>
                 
                     <div>
                         {categories && categories.length > 0 ? categories.map((category, idx) => (
