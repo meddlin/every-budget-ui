@@ -85,8 +85,7 @@ const Budget = () => {
     function updateCategories() {
         if (categories && categories.length > 0) {
             return [...categories, newCategory()]
-        }
-        else {
+        } else {
             return [newCategory()]
         }        
     }
