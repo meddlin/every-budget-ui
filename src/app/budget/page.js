@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import SearchBar from './search';
 import { replace } from 'formik';
 
+import { useCategories } from '../../utility/fetchers';
+
 // const initialCategories = [
 //     {
 //         name: 'Income',
@@ -51,6 +53,7 @@ import { replace } from 'formik';
 // ];
 
 const Budget = () => {
+    const { fetchedCategories, isLoadingCategories, isErrorCategories } = useCategories();
     const initialCategories = [
         {
                     name: 'Income',
@@ -109,6 +112,10 @@ const Budget = () => {
                 </div>
                 <div className="w-1/2">
                     <SearchBar />
+
+                    <p className="text-white">
+                        {fetchedCategories && fetchedCategories !== undefined ? fetchedCategories.toString() : 'no fetched data'}
+                    </p>
                 
                     <div>
                         {categories && categories.length > 0 ? categories.map((category, idx) => (
