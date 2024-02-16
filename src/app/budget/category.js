@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import BudgetItem from "./budget-item";
 import { EditButton, Button } from '../../components/buttons';
 import { 
@@ -9,6 +10,28 @@ import {
 import CategoryEditForm from './category/edit-form';
 
 const Category = ({ name, description, budgetItems }) => {
+    const initialBudgetItems = [] // budgetItems || [];
+    const [stateBudgetItems, setStateBudgetItems] = useState(initialBudgetItems);
+    
+    const newBudgetItem = () => {
+        return {
+            name: 'new budget item',
+            planned: 140.00,
+            spent: 70.00
+        };
+    }
+
+    function updateBudgetItems() {
+        console.log('in updateBudgetItems()')
+
+        if (stateBudgetItems && stateBudgetItems.length > 0) {
+            setStateBudgetItems([...stateBudgetItems, newBudgetItem()])
+        } else {
+            setStateBudgetItems([newBudgetItem()])
+        }
+    }
+
+
     return (
         <div className="overflow-hidden bg-white shadow sm:rounded-lg my-4">
             <div className="px-4 py-2 sm:px-6">
@@ -33,7 +56,7 @@ const Category = ({ name, description, budgetItems }) => {
                 </div>
             </div>
 
-            {budgetItems && budgetItems.length > 0 ? budgetItems.map((budgetItem, idx) => (
+            {stateBudgetItems && stateBudgetItems.length > 0 ? stateBudgetItems.map((budgetItem, idx) => (
                 <BudgetItem 
                     key={idx} 
                     name={budgetItem.name} 
@@ -42,6 +65,12 @@ const Category = ({ name, description, budgetItems }) => {
                     transactions={budgetItem.transactions}
                 />
             )) : <p>No items to show</p>}
+
+            <button className="text-gray-500"
+                onClick={
+                    () => updateBudgetItems()
+                }
+            >Add Budg.Item</button>
 
         </div>
     );
