@@ -1,0 +1,30 @@
+import useSWR from 'swr';
+import { API_URL } from './constants';
+
+
+const fetcher = (...args) => fetch(...args).then(res => res.json());
+
+const useBudget = () => {
+    const { data, error, isLoading } = useSWR(`${API_URL}/api/Budgets/Get`, fetcher);
+
+    return {
+        budget: data ? data : {},
+        isLoadingBudget: isLoading,
+        isErrorBudget: error
+    }
+}
+
+const useCategories = () => {
+    const { data, error, isLoading } = useSWR(`${API_URL}/api/Categories/Get`, fetcher);
+
+    return {
+        fetchedCategories: data ? data : [],
+        isLoadingCategories: isLoading,
+        isErrorCategories: error
+    };
+}
+
+export {
+    useBudget,
+    useCategories
+}
