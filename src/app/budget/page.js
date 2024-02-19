@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import SearchBar from './search';
 import { replace } from 'formik';
 
-import { useCategories } from '../../utility/fetchers';
+import { useCategories, useBudget } from '../../utility/fetchers';
 
 // const initialCategories = [
 //     {
@@ -70,7 +70,10 @@ const Budget = () => {
     //             }
     // ];
     const { fetchedCategories, isLoadingCategories, isErrorCategories } = useCategories();
+    const { budget, isLoadingBudget, isErrorBudget } = useBudget();
     const [categories, setCategories] = useState(fetchedCategories);
+
+    const { myCategories } = budget;
 
     /**
      * Constructor function for Category
@@ -93,7 +96,7 @@ const Budget = () => {
             return [newCategory()]
         }        
     }
-    
+
     return (
         <div className="flex flex-col content-center justify-center">
             <div className="flex">
@@ -102,8 +105,25 @@ const Budget = () => {
                 </div>
                 <div className="w-1/2">
                     <SearchBar />
-                
+
+                    { myCategories.toString() }
+
                     <div>
+                        {budget && budget.categories && budget.categories.length > 0 ? budget.categories.map( (cat, idx) => (
+                            <Category
+                                key={idx}
+                                name={cat.name}
+                                description={cat.description}
+                                budgetItems={cat.budgetItems}
+                            />
+                        )) : 'Need to create Categories'}
+
+                        <button onClick={
+                            () => setCategories(updateCategories())
+                        }>Add Category</button>
+                    </div>
+                
+                    {/* <div>
                         {categories && categories.length > 0 ? categories.map((category, idx) => (
                             <Category
                                 key={idx}
@@ -116,7 +136,7 @@ const Budget = () => {
                         <button onClick={
                             () => setCategories(updateCategories())
                         }>Add Category</button>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="w-1/4">
                     {/* right gutter */}
