@@ -24,7 +24,18 @@ const useCategories = () => {
     };
 }
 
+const useTransactions = () => {
+    const { data, error, isLoading } = useSWR(`${API_URL}/api/Transactions/Get`, fetcher);
+
+    return {
+        fetchedTransactions: data ? data : [],
+        isLoadingTransactions: isLoading,
+        isErrorTransactions: error
+    };
+};
+
 export {
     useBudget,
-    useCategories
+    useCategories,
+    useTransactions
 }

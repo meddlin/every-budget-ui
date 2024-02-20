@@ -14,6 +14,7 @@ import {
     getFacetedMinMaxValues,
     sortingFns,
 } from "@tanstack/react-table";
+import { useTransactions } from '../../utility/fetchers';
 
 const sampleTransactions = [
     {
@@ -50,9 +51,12 @@ const columns = [
 ];
 
 const Transactions = () => {
+    const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
+
     const table = useReactTable({
         columns,
-        data: (sampleTransactions && sampleTransactions.length > 0) ? sampleTransactions : [],
+        // data: (sampleTransactions && sampleTransactions.length > 0) ? sampleTransactions : [],
+        data: (fetchedTransactions && fetchedTransactions.length > 0) ? fetchedTransactions : [],
         // state: {
         //     columnFilters,
         //     globalFilter,
@@ -61,44 +65,48 @@ const Transactions = () => {
     });
 
     return (
-        <div>
-            <table>
-                <thead>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => (
-                                <th key={header.id} className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                    {
-                                        header.isPlaceholder 
-                                        ? null 
-                                        : (<>
-                                            <div>
-                                                {flexRender(
-                                                    header.column.columnDef.header, header.getContext() 
-                                                )}
-                                            </div>
-                                        </>)
-                                    }
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
-                </thead>
-                <tbody>
-                    {table.getRowModel().rows.map((row) => (
-                        <tr 
-                            key={row.id} 
-                            // onClick={() => setCurrentAlloy(row.original)}
-                            className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
-                            {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+        <div className="flex justify-center">
+            <div className="flex flex-col">
+                <input placeholder="Search..." />
+
+                <table>
+                    <thead>
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <tr key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
+                                    <th key={header.id} className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        {
+                                            header.isPlaceholder 
+                                            ? null 
+                                            : (<>
+                                                <div>
+                                                    {flexRender(
+                                                        header.column.columnDef.header, header.getContext() 
+                                                    )}
+                                                </div>
+                                            </>)
+                                        }
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
+                    </thead>
+                    <tbody>
+                        {table.getRowModel().rows.map((row) => (
+                            <tr 
+                                key={row.id} 
+                                // onClick={() => setCurrentAlloy(row.original)}
+                                className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
+                                {row.getVisibleCells().map(cell => (
+                                    <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };
