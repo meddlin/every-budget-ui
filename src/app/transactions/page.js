@@ -15,50 +15,48 @@ import {
     sortingFns,
 } from "@tanstack/react-table";
 
+const sampleTransactions = [
+    {
+        vendor: 'ACME Co.',
+        amount: '100.00',
+        transactionDate: '02/19/2024'
+    },
+    {
+        vendor: 'ACME Co.',
+        amount: '100.00',
+        transactionDate: '02/17/2024'
+    },
+    {
+        vendor: 'ACME Co.',
+        amount: '100.00',
+        transactionDate: '02/01/2024'
+    }
+];
+
+const columnHelper = createColumnHelper();
+const columns = [
+    columnHelper.accessor('vendor', {
+        header: () => <h3>Vendor</h3>,
+        cell: info => info.getValue()
+    }),
+    columnHelper.accessor('amount', {
+        header: () => <h3>Amount</h3>,
+        cell: info => info.getValue()
+    }),
+    columnHelper.accessor('transactionDate', {
+        header: () => <h3>Transaction Date</h3>,
+        cell: info => info.getValue()
+    }),
+];
+
 const Transactions = () => {
-    const sampleTransactions = [
-        {
-            vendor: 'ACME Co.',
-            amount: '100.00',
-            transactionDate: '02/19/2024'
-        },
-        {
-            vendor: 'ACME Co.',
-            amount: '100.00',
-            transactionDate: '02/17/2024'
-        },
-        {
-            vendor: 'ACME Co.',
-            amount: '100.00',
-            transactionDate: '02/01/2024'
-        }
-    ];
-
-    const [globalFilter, setGlobalFilter] = useState('');
-    const [columnFilters, setColumnFilters] = useState([]);
-    const columnHelper = createColumnHelper();
-    const columns = [
-        columnHelper.accessor('vendor', {
-            header: () => <h3>Vendor</h3>,
-            cell: info => info.getValue()
-        }),
-        columnHelper.accessor('amount', {
-            header: () => <h3>Amount</h3>,
-            cell: info => info.getValue()
-        }),
-        columnHelper.accessor('Transaction Date', {
-            header: () => <h3>Transaction Date</h3>,
-            cell: info => info.getValue()
-        }),
-    ];
-
     const table = useReactTable({
         columns,
         data: (sampleTransactions && sampleTransactions.length > 0) ? sampleTransactions : [],
-        state: {
-            columnFilters,
-            globalFilter,
-        },
+        // state: {
+        //     columnFilters,
+        //     globalFilter,
+        // },
         getCoreRowModel: getCoreRowModel(),
     });
 
@@ -90,7 +88,7 @@ const Transactions = () => {
                     {table.getRowModel().rows.map((row) => (
                         <tr 
                             key={row.id} 
-                            onClick={() => setCurrentAlloy(row.original)}
+                            // onClick={() => setCurrentAlloy(row.original)}
                             className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
                             {row.getVisibleCells().map(cell => (
                                 <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
