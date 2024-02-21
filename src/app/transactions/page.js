@@ -16,6 +16,20 @@ import {
 } from "@tanstack/react-table";
 import { useTransactions } from '../../utility/fetchers';
 import { DeleteButton, EditButton } from '@/components/buttons';
+import { 
+    TransactionsTableEditModal, 
+    TransactionsTableEditModalContents, 
+    TransactionsTableEditModalDismissButton, 
+    TransactionsTableEditModalOpenButton 
+} from './actions/edit-modal';
+import TransactionsTableEditForm from './actions/edit-form';
+import TransactionsTableDeleteForm from './actions/delete-form';
+import { 
+    TransactionsTableDeleteModal,
+    TransactionsTableDeleteModalContents,
+    TransactionsTableDeleteModalOpenButton,
+    TransactionsTableDeleteModalDismissButton
+} from './actions/delete-modal';
 
 const sampleTransactions = [
     {
@@ -54,7 +68,19 @@ const columns = [
         cell: ({ row }) => {
             return (
                 <>
-                    <EditButton onClick={() => alert('edit button')} />
+                    <TransactionsTableEditModal>
+                        <TransactionsTableEditModalOpenButton>
+                            <EditButton />
+                        </TransactionsTableEditModalOpenButton>
+                        <TransactionsTableEditModalContents>
+
+                            <TransactionsTableEditForm data={row.original} />
+
+                            <TransactionsTableEditModalDismissButton>
+                                <div>Close</div>
+                            </TransactionsTableEditModalDismissButton>
+                        </TransactionsTableEditModalContents>
+                    </TransactionsTableEditModal>
                 </>
             );
         }
@@ -64,7 +90,19 @@ const columns = [
         cell: ({ row }) => {
             return (
                 <>
-                    <DeleteButton onClick={() => alert('delete button')} />
+                    <TransactionsTableDeleteModal>
+                        <TransactionsTableDeleteModalOpenButton>
+                            <DeleteButton />
+                        </TransactionsTableDeleteModalOpenButton>
+                        <TransactionsTableDeleteModalContents>
+                            
+                            <TransactionsTableDeleteForm data={row.original} />
+                        
+                            <TransactionsTableDeleteModalDismissButton>
+                                <div>Close</div>
+                            </TransactionsTableDeleteModalDismissButton>
+                        </TransactionsTableDeleteModalContents>
+                    </TransactionsTableDeleteModal>
                 </>
             );
         }
