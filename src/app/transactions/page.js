@@ -15,6 +15,7 @@ import {
     sortingFns,
 } from "@tanstack/react-table";
 import { useTransactions } from '../../utility/fetchers';
+import { DeleteButton, EditButton } from '@/components/buttons';
 
 const sampleTransactions = [
     {
@@ -48,6 +49,26 @@ const columns = [
         header: () => <h3>Transaction Date</h3>,
         cell: info => info.getValue()
     }),
+    columnHelper.accessor('edit_button', {
+        header: () => '',
+        cell: ({ row }) => {
+            return (
+                <>
+                    <EditButton onClick={() => alert('edit button')} />
+                </>
+            );
+        }
+    }),
+    columnHelper.accessor('del_button', {
+        header: () => '',
+        cell: ({ row }) => {
+            return (
+                <>
+                    <DeleteButton onClick={() => alert('delete button')} />
+                </>
+            );
+        }
+    })
 ];
 
 const Transactions = () => {
