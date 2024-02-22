@@ -30,6 +30,7 @@ import {
     TransactionsTableDeleteModalOpenButton,
     TransactionsTableDeleteModalDismissButton
 } from './actions/delete-modal';
+import Papa from 'papaparse';
 
 const sampleTransactions = [
     {
@@ -112,6 +113,21 @@ const columns = [
 const Transactions = () => {
     const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
 
+    function handleFileChange(event) {
+        console.log(event.target.files[0]);
+        console.log(`File to upload is: ${event.target.files[0].name}`)
+        console.log(`File to upload is: ${JSON.stringify(event.target.files[0])}`)
+
+        // Passing file data (event.target.files[0]) to parse using Papa.parse
+        Papa.parse(event.target.files[0], {
+            header: true,
+            skipEmptyLines: true,
+            complete: function (results) {
+            console.log(results.data)
+            },
+        });
+    }
+
     const table = useReactTable({
         columns,
         // data: (sampleTransactions && sampleTransactions.length > 0) ? sampleTransactions : [],
@@ -126,7 +142,18 @@ const Transactions = () => {
     return (
         <div className="flex justify-center">
             <div className="flex flex-col">
-                <input placeholder="Search..." />
+                <div className="flex">
+                    <input placeholder="Search..." />
+                    <input 
+                        type="file" 
+                        name="file"
+                        accept=".csv"
+                        onChange={(event) => handleFileChange(event)}
+                    />
+                    <button
+                        onClick={() => alert('upload clicked')}
+                    >Upload</button>
+                </div>
 
                 <table>
                     <thead>
