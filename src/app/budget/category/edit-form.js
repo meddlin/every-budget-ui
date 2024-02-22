@@ -30,7 +30,7 @@ const CategoryEditForm = ({ name }) => {
                             placeholder="Enter name"
                             onChange={props.handleChange}
                             onBlur={props.onBlur}
-                            values={props.values.planned}
+                            values={props.values.name}
                         />
 
                         <button
