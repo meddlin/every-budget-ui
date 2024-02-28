@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { 
     useReactTable, 
     createColumnHelper, 
@@ -30,6 +30,7 @@ import {
     TransactionsTableDeleteModalOpenButton,
     TransactionsTableDeleteModalDismissButton
 } from './actions/delete-modal';
+import CsvPreviewTable from './csv-preview-table';
 import Papa from 'papaparse';
 
 const sampleTransactions = [
@@ -113,6 +114,7 @@ const columns = [
 const Transactions = () => {
     const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
     const [csvData, setCsvData] = useState([]);
+    const uploadInput = useRef(null);
 
     const [showTransactionTable, setShowTransactionTable] = useState(true);
     const [showPreviewTable, setShowPreviewTable] = useState(false);
@@ -123,9 +125,15 @@ const Transactions = () => {
     }
 
     function resetUpload() {
-        setCsvData([]);
+        uploadInput.current.value = null;
+        // if (uploadInput.current) {
+        //     // uploadInput.current.type = "text";
+        //     // uploadInput.current.type = "file";
+        //     // uploadInput.current.files = [];
+        // }
 
         toggleTables()
+        setCsvData([]);
     }
 
     function handleFileChange(event) {
@@ -139,11 +147,10 @@ const Transactions = () => {
             skipEmptyLines: true,
             complete: function (results) {
                 console.log(results.data)
+                toggleTables()
                 setCsvData(results.data)
             },
         });
-
-        toggleTables()
     }
 
     const table = useReactTable({
@@ -170,6 +177,7 @@ const Transactions = () => {
                         onChange={(event) => handleFileChange(event)}
                     />
                     <button
+                        ref={uploadInput}
                         onClick={() => alert('upload clicked')}
                     >Upload</button>
                     <button
@@ -180,24 +188,10 @@ const Transactions = () => {
                 </div>
 
                 {showPreviewTable ? (
-                    <div>
-                        <h2>View - previewing CSV data</h2>
-                        <table>
-                            <thead>
-                                <tr><th>Head1</th></tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>Col1</td></tr>
-                                {csvData && csvData.length > 0 ? (
-                                    csvData.map(csvRec => (
-                                        <tr>JSON.stringify(csvRec)</tr>
-                                    ))
-                                ) : 'No CSV data available'}
-                            </tbody>
-                        </table>
-                    </div>
+                    <CsvPreviewTable data={csvData} />
                 ) : ''}
 
+                    
                 {showTransactionTable ? (
                     <div>
                         <h2>View - Stored Transactions</h2>
