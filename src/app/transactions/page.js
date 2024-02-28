@@ -112,6 +112,21 @@ const columns = [
 
 const Transactions = () => {
     const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
+    const [csvData, setCsvData] = useState([]);
+
+    const [showTransactionTable, setShowTransactionTable] = useState(true);
+    const [showPreviewTable, setShowPreviewTable] = useState(false);
+
+    function toggleTables() {
+        setShowTransactionTable( !showTransactionTable );
+        setShowPreviewTable( !showPreviewTable );
+    }
+
+    function resetUpload() {
+        setCsvData([]);
+
+        toggleTables()
+    }
 
     function handleFileChange(event) {
         console.log(event.target.files[0]);
@@ -123,15 +138,19 @@ const Transactions = () => {
             header: true,
             skipEmptyLines: true,
             complete: function (results) {
-            console.log(results.data)
+                console.log(results.data)
+                setCsvData(results.data)
             },
         });
+
+        toggleTables()
     }
 
     const table = useReactTable({
         columns,
         // data: (sampleTransactions && sampleTransactions.length > 0) ? sampleTransactions : [],
         data: (fetchedTransactions && fetchedTransactions.length > 0) ? fetchedTransactions : [],
+        // data: (csvData && csvData.length > 0) ? csvData : [],
         // state: {
         //     columnFilters,
         //     globalFilter,
@@ -153,45 +172,74 @@ const Transactions = () => {
                     <button
                         onClick={() => alert('upload clicked')}
                     >Upload</button>
+                    <button
+                        onClick={() => resetUpload()}
+                    >
+                        Cancel
+                    </button>
                 </div>
 
-                <table>
-                    <thead>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <tr key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => (
-                                    <th key={header.id} className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        {
-                                            header.isPlaceholder 
-                                            ? null 
-                                            : (<>
-                                                <div>
-                                                    {flexRender(
-                                                        header.column.columnDef.header, header.getContext() 
-                                                    )}
-                                                </div>
-                                            </>)
-                                        }
-                                    </th>
+                {showPreviewTable ? (
+                    <div>
+                        <h2>View - previewing CSV data</h2>
+                        <table>
+                            <thead>
+                                <tr><th>Head1</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Col1</td></tr>
+                                {csvData && csvData.length > 0 ? (
+                                    csvData.map(csvRec => (
+                                        <tr>JSON.stringify(csvRec)</tr>
+                                    ))
+                                ) : 'No CSV data available'}
+                            </tbody>
+                        </table>
+                    </div>
+                ) : ''}
+
+                {showTransactionTable ? (
+                    <div>
+                        <h2>View - Stored Transactions</h2>
+                        <table>
+                            <thead>
+                                {table.getHeaderGroups().map((headerGroup) => (
+                                    <tr key={headerGroup.id}>
+                                        {headerGroup.headers.map((header) => (
+                                            <th key={header.id} className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                                {
+                                                    header.isPlaceholder 
+                                                    ? null 
+                                                    : (<>
+                                                        <div>
+                                                            {flexRender(
+                                                                header.column.columnDef.header, header.getContext() 
+                                                            )}
+                                                        </div>
+                                                    </>)
+                                                }
+                                            </th>
+                                        ))}
+                                    </tr>
                                 ))}
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody>
-                        {table.getRowModel().rows.map((row) => (
-                            <tr 
-                                key={row.id} 
-                                // onClick={() => setCurrentAlloy(row.original)}
-                                className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
-                                {row.getVisibleCells().map(cell => (
-                                    <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </td>
+                            </thead>
+                            <tbody>
+                                {table.getRowModel().rows.map((row) => (
+                                    <tr 
+                                        key={row.id} 
+                                        // onClick={() => setCurrentAlloy(row.original)}
+                                        className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
+                                        {row.getVisibleCells().map(cell => (
+                                            <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </td>
+                                        ))}
+                                    </tr>
                                 ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                ) : ''}
             </div>
         </div>
     );
