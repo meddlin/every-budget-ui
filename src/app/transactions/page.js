@@ -33,24 +33,6 @@ import {
 import CsvPreviewTable from './csv-preview-table';
 import Papa from 'papaparse';
 
-const sampleTransactions = [
-    {
-        vendor: 'ACME Co.',
-        amount: '100.00',
-        transactionDate: '02/19/2024'
-    },
-    {
-        vendor: 'ACME Co.',
-        amount: '100.00',
-        transactionDate: '02/17/2024'
-    },
-    {
-        vendor: 'ACME Co.',
-        amount: '100.00',
-        transactionDate: '02/01/2024'
-    }
-];
-
 const columnHelper = createColumnHelper();
 const columns = [
     columnHelper.accessor('vendor', {
@@ -126,11 +108,6 @@ const Transactions = () => {
 
     function resetUpload() {
         uploadInput.current.value = null;
-        // if (uploadInput.current) {
-        //     // uploadInput.current.type = "text";
-        //     // uploadInput.current.type = "file";
-        //     // uploadInput.current.files = [];
-        // }
 
         toggleTables()
         setCsvData([]);
@@ -138,8 +115,10 @@ const Transactions = () => {
 
     function handleFileChange(event) {
         console.log(event.target.files[0]);
-        console.log(`File to upload is: ${event.target.files[0].name}`)
-        console.log(`File to upload is: ${JSON.stringify(event.target.files[0])}`)
+        if (event.target.files && event.target.files[0]) {
+            console.log(`File to upload is: ${event.target.files[0].name}`);
+            console.log(`File to upload is: ${JSON.stringify(event.target.files[0])}`);
+        }
 
         // Passing file data (event.target.files[0]) to parse using Papa.parse
         Papa.parse(event.target.files[0], {
@@ -155,7 +134,6 @@ const Transactions = () => {
 
     const table = useReactTable({
         columns,
-        // data: (sampleTransactions && sampleTransactions.length > 0) ? sampleTransactions : [],
         data: (fetchedTransactions && fetchedTransactions.length > 0) ? fetchedTransactions : [],
         // data: (csvData && csvData.length > 0) ? csvData : [],
         // state: {

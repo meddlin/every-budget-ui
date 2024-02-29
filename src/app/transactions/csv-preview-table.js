@@ -13,8 +13,8 @@ const CsvPreviewTable = ({ data }) => {
                 <table className="text-sm">
                     <thead>
                         <tr>
-                            {header.map(item => (
-                                <th>{item}</th>
+                            {header.map((item, key) => (
+                                <th key={key}>{item}</th>
                             ))}
                         </tr>
                     </thead>
