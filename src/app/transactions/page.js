@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { 
     useReactTable, 
     createColumnHelper, 
@@ -30,24 +30,8 @@ import {
     TransactionsTableDeleteModalOpenButton,
     TransactionsTableDeleteModalDismissButton
 } from './actions/delete-modal';
-
-const sampleTransactions = [
-    {
-        vendor: 'ACME Co.',
-        amount: '100.00',
-        transactionDate: '02/19/2024'
-    },
-    {
-        vendor: 'ACME Co.',
-        amount: '100.00',
-        transactionDate: '02/17/2024'
-    },
-    {
-        vendor: 'ACME Co.',
-        amount: '100.00',
-        transactionDate: '02/01/2024'
-    }
-];
+import CsvPreviewTable from './csv-preview-table';
+import Papa from 'papaparse';
 
 const columnHelper = createColumnHelper();
 const columns = [
@@ -111,10 +95,45 @@ const columns = [
 
 const Transactions = () => {
     const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
+    const [csvData, setCsvData] = useState([]);
+    const uploadInput = useRef(null);
+
+    const [showTransactionTable, setShowTransactionTable] = useState(true);
+    const [showPreviewTable, setShowPreviewTable] = useState(false);
+
+    function toggleTables() {
+        setShowTransactionTable( !showTransactionTable );
+        setShowPreviewTable( !showPreviewTable );
+    }
+
+    function resetUpload() {
+        uploadInput.current.value = null;
+
+        toggleTables()
+        setCsvData([]);
+    }
+
+    function handleFileChange(event) {
+        console.log(event.target.files[0]);
+        if (event.target.files && event.target.files[0]) {
+            console.log(`File to upload is: ${event.target.files[0].name}`);
+            console.log(`File to upload is: ${JSON.stringify(event.target.files[0])}`);
+        }
+
+        // Passing file data (event.target.files[0]) to parse using Papa.parse
+        Papa.parse(event.target.files[0], {
+            header: true,
+            skipEmptyLines: true,
+            complete: function (results) {
+                console.log(results.data)
+                toggleTables()
+                setCsvData(results.data)
+            },
+        });
+    }
 
     const table = useReactTable({
         columns,
-        // data: (sampleTransactions && sampleTransactions.length > 0) ? sampleTransactions : [],
         data: (fetchedTransactions && fetchedTransactions.length > 0) ? fetchedTransactions : [],
         // state: {
         //     columnFilters,
@@ -126,45 +145,72 @@ const Transactions = () => {
     return (
         <div className="flex justify-center">
             <div className="flex flex-col">
-                <input placeholder="Search..." />
+                <div className="flex">
+                    <input placeholder="Search..." />
+                    <input 
+                        type="file" 
+                        name="file"
+                        accept=".csv"
+                        onChange={(event) => handleFileChange(event)}
+                    />
+                    <button
+                        ref={uploadInput}
+                        onClick={() => alert('upload clicked')}
+                    >Upload</button>
+                    <button
+                        onClick={() => resetUpload()}
+                    >
+                        Cancel
+                    </button>
+                </div>
 
-                <table>
-                    <thead>
-                        {table.getHeaderGroups().map((headerGroup) => (
-                            <tr key={headerGroup.id}>
-                                {headerGroup.headers.map((header) => (
-                                    <th key={header.id} className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                        {
-                                            header.isPlaceholder 
-                                            ? null 
-                                            : (<>
-                                                <div>
-                                                    {flexRender(
-                                                        header.column.columnDef.header, header.getContext() 
-                                                    )}
-                                                </div>
-                                            </>)
-                                        }
-                                    </th>
+                {showPreviewTable ? (
+                    <CsvPreviewTable data={csvData} />
+                ) : ''}
+
+                    
+                {showTransactionTable ? (
+                    <div>
+                        <h2>View - Stored Transactions</h2>
+                        <table>
+                            <thead>
+                                {table.getHeaderGroups().map((headerGroup) => (
+                                    <tr key={headerGroup.id}>
+                                        {headerGroup.headers.map((header) => (
+                                            <th key={header.id} className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                                {
+                                                    header.isPlaceholder 
+                                                    ? null 
+                                                    : (<>
+                                                        <div>
+                                                            {flexRender(
+                                                                header.column.columnDef.header, header.getContext() 
+                                                            )}
+                                                        </div>
+                                                    </>)
+                                                }
+                                            </th>
+                                        ))}
+                                    </tr>
                                 ))}
-                            </tr>
-                        ))}
-                    </thead>
-                    <tbody>
-                        {table.getRowModel().rows.map((row) => (
-                            <tr 
-                                key={row.id} 
-                                // onClick={() => setCurrentAlloy(row.original)}
-                                className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
-                                {row.getVisibleCells().map(cell => (
-                                    <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                    </td>
+                            </thead>
+                            <tbody>
+                                {table.getRowModel().rows.map((row) => (
+                                    <tr 
+                                        key={row.id} 
+                                        // onClick={() => setCurrentAlloy(row.original)}
+                                        className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
+                                        {row.getVisibleCells().map(cell => (
+                                            <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                            </td>
+                                        ))}
+                                    </tr>
                                 ))}
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
+                    </div>
+                ) : ''}
             </div>
         </div>
     );
