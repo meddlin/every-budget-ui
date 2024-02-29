@@ -24,7 +24,9 @@ const CsvPreviewTable = ({ data }) => {
                                 return (
                                     <tr key={idx}>
                                         {
-                                            Object.values(rec).map(val => <td>{val}</td>)
+                                            Object.values(rec).map(
+                                                (val, key) => <td key={key}>{val}</td>
+                                            )
                                         }
                                     </tr>
                                 );
