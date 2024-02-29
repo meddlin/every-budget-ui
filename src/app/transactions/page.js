@@ -135,7 +135,6 @@ const Transactions = () => {
     const table = useReactTable({
         columns,
         data: (fetchedTransactions && fetchedTransactions.length > 0) ? fetchedTransactions : [],
-        // data: (csvData && csvData.length > 0) ? csvData : [],
         // state: {
         //     columnFilters,
         //     globalFilter,
