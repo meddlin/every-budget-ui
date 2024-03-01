@@ -135,13 +135,15 @@ const Transactions = () => {
             }
         }).then(data => {
             console.log(`data: ${JSON.stringify(data)}`)
+
+            const responseMessage = data && data.message ? data.message : '';
+            if (responseMessage.toLowerCase().includes("success")) {
+                resetUpload();
+            }
+
         }).catch(error => {
             console.log(error);
-        })
-
-        // console.log(`response: ${JSON.stringify(response)}`);
-        // const content = await response.json();
-        // console.log(`content: ${JSON.stringify(content)}`);
+        });
     }
 
     function handleFileChange(event) {
