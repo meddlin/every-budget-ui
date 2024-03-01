@@ -113,6 +113,59 @@ const Transactions = () => {
         setCsvData([]);
     }
 
+    function transformCsvData(csvData) {
+        const newData = [];
+        for (const row of csvData) {
+            newData.push({
+                amount: row['Amount'],
+                balance: row['Balance'],
+                checkNumber: row['Check Number'],
+                description: row['Description'],
+                effectiveDate: row['Effective Date'],
+                extendedDescription: row['Extended Description'],
+                memo: row['Memo'],
+                postingDate: row['Posting Date'],
+                referenceNumber: row['Reference Number'],
+                transactionCategory: row['Transaction Category'],
+                transactionId: row['Transaction ID'],
+                transactionType: row['Transaction Type'],
+                type: row['Type']
+            })
+        }
+
+        return newData;
+    }
+
+    async function handleUpload() {
+        console.log('upload clicked')
+
+        // const response = await fetch('https://localhost:7291/api/Transactions/Upload', {
+        await fetch('https://localhost:7291/api/Transactions/Upload', {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(transformCsvData(csvData))
+        }).then(res => {
+            if (res.ok) {
+                console.log(res);
+                console.log(`res.status: ${res.status}`)
+                console.log(`res.ok: ${res.ok}`)
+                return res.json();
+            }
+        }).then(data => {
+            console.log(`data: ${JSON.stringify(data)}`)
+        }).catch(error => {
+            console.log(error);
+        })
+
+        // console.log(`response: ${JSON.stringify(response)}`);
+        // const content = await response.json();
+        // console.log(`content: ${JSON.stringify(content)}`);
+    }
+
     function handleFileChange(event) {
         console.log(event.target.files[0]);
         if (event.target.files && event.target.files[0]) {
@@ -155,7 +208,7 @@ const Transactions = () => {
                     />
                     <button
                         ref={uploadInput}
-                        onClick={() => alert('upload clicked')}
+                        onClick={() => handleUpload()}
                     >Upload</button>
                     <button
                         onClick={() => resetUpload()}
