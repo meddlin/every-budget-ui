@@ -2,6 +2,7 @@ import { Formik, ErrorMessage } from 'formik';
 import { object } from 'yup';
 import ComboSelector from '@/components/combo-selector';
 import InputWithValidation from '@/components/input';
+import InputPrice from '@/components/input-price';
 
 const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
     const EditSchema = object();
@@ -40,19 +41,10 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                                 onBlur={props.onBlur}
                                 values={props.values.vendor}
                             />
-                            {/* <label>Vendor</label>
-                            <input
-                                id="vendor"
-                                name="vendor"
-                                type="text"
-                                className=""
-                                placeholder="Vendor"
-                                onChange={props.handleChange}
-                                onBlur={props.onBlur}
-                                values={props.values.vendor}
-                            /> */}
 
-                            <label>Amount</label>
+                            <InputPrice labelText={"Amount"} />
+
+                            {/* <label>Amount</label>
                             <input
                                 id="amount"
                                 name="amount"
@@ -62,13 +54,13 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.onBlur}
                                 values={props.values.amount}
-                            />
+                            /> */}
                         </div>
 
                         <label>Transaction Date</label>
                         <input
-                            id="vendor"
-                            name="vendor"
+                            id="transactionDate"
+                            name="transactionDate"
                             type="date"
                             className=""
                             placeholder=""
