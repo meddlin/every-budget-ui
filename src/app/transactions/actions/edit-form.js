@@ -1,6 +1,7 @@
 import { Formik, ErrorMessage } from 'formik';
 import { object } from 'yup';
-import ComboSelector from '../../../components/combo-selector';
+import ComboSelector from '@/components/combo-selector';
+import InputWithValidation from '@/components/input';
 
 const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
     const EditSchema = object();
@@ -27,7 +28,19 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                         <ComboSelector />
 
                         <div className="flex">
-                            <label>Vendor</label>
+                            <InputWithValidation
+                                labelText={"Vendor"}
+                                id={"vendor"} 
+                                name={"vendor"}
+                                type={"text"}
+                                placeholder={"Vendor"}
+                                defaultValue={''}
+                                validationMessage={"Not a valid vendor"}
+                                onChange={props.handleChange}
+                                onBlur={props.onBlur}
+                                values={props.values.vendor}
+                            />
+                            {/* <label>Vendor</label>
                             <input
                                 id="vendor"
                                 name="vendor"
@@ -37,7 +50,7 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                                 onChange={props.handleChange}
                                 onBlur={props.onBlur}
                                 values={props.values.vendor}
-                            />
+                            /> */}
 
                             <label>Amount</label>
                             <input
