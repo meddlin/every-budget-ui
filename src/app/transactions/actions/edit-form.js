@@ -1,5 +1,6 @@
 import { Formik, ErrorMessage } from 'formik';
 import { object } from 'yup';
+import ComboSelector from '../../../components/combo-selector';
 
 const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
     const EditSchema = object();
@@ -22,6 +23,8 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                 <div>
                     <form onSubmit={props.handleSubmit}>
                         <h2 className="text-lg font-bold">Edit Transaction</h2>
+
+                        <ComboSelector />
 
                         <div className="flex">
                             <label>Vendor</label>
