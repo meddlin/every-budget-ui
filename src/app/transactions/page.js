@@ -59,7 +59,11 @@ const columns = [
                         </TransactionsTableEditModalOpenButton>
                         <TransactionsTableEditModalContents>
 
-                            <TransactionsTableEditForm data={row.original} />
+                            <TransactionsTableEditForm 
+                                vendor={row.original.vendor} 
+                                amount={row.original.amount} 
+                                transactionDate={row.original.transactionDate} 
+                            /> {/* data={row.original} */}
 
                             <TransactionsTableEditModalDismissButton>
                                 <div>Close</div>

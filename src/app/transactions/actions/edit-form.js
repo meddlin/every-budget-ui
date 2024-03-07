@@ -22,13 +22,15 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
             initialValues={initialValues}
             validationSchema={EditSchema}
             onSubmit={ async(values, actions) => {
-                const viewModel = {};
-                const response = await fetch(``);
+                // const viewModel = {};
+                // const response = await fetch(``);
+
+                alert(`submitted values: ${JSON.stringify(values)}`)
             }}
         >
-            {(props) => (
+            {({ setFieldValue, handleChange, handleBlur, handleReset, handleSubmit, values, errors, touched, isValid, dirty }) => (
                 <div>
-                    <form onSubmit={props.handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <h2 className="text-lg font-bold">Edit Transaction</h2>
 
                         {!isLoadingBudgetItems && !isErrorBudgetItems ? (
@@ -41,12 +43,12 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                                 id={"vendor"} 
                                 name={"vendor"}
                                 type={"text"}
-                                placeholder={"Vendor"}
-                                defaultValue={''}
+                                // placeholder={"Vendor"}
+                                // defaultValue={''}
                                 validationMessage={"Not a valid vendor"}
-                                onChange={props.handleChange}
-                                onBlur={props.onBlur}
-                                values={props.values.vendor}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                values={values.vendor}
                             />
 
                             <InputPrice labelText={"Amount"} />
@@ -71,9 +73,9 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                             type="date"
                             className=""
                             placeholder=""
-                            onChange={props.handleChange}
-                            onBlur={props.onBlur}
-                            values={props.values.vendor}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            values={values.transactionDate}
                         />
 
                         <div className="flex justify-between">
