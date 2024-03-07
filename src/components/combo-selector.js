@@ -11,9 +11,9 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const ComboSelector = ({ choices }) => {
+const ComboSelector = ({ choices, value, onChange }) => {
   const [query, setQuery] = useState('')
-  const [selectedItem, setSelectedItem] = useState(null)
+  // const [selectedItem, setSelectedItem] = useState(null)
 
   const filteredItems =
     query === ''
@@ -23,7 +23,11 @@ const ComboSelector = ({ choices }) => {
         })
 
   return (
-    <Combobox as="div" value={selectedItem} onChange={setSelectedItem}>
+    <Combobox 
+      as="div" 
+      value={value} 
+      onChange={onChange}
+    >
       <Combobox.Label className="block text-sm font-medium leading-6 text-gray-900">Assigned to</Combobox.Label>
       <div className="relative mt-2">
         <Combobox.Input
@@ -36,10 +40,12 @@ const ComboSelector = ({ choices }) => {
         </Combobox.Button>
 
         {filteredItems.length > 0 && (
-          <Combobox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-            {filteredItems.map((item) => (
+          <Combobox.Options 
+            className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+          >
+            {filteredItems.map((item, idx) => (
               <Combobox.Option
-                key={item.category}
+                key={idx}
                 value={item}
                 className={({ active }) =>
                   classNames(
@@ -58,7 +64,7 @@ const ComboSelector = ({ choices }) => {
                           active ? 'text-indigo-200' : 'text-gray-500'
                         )}
                       >
-                        {item.category}
+                        {`Cat. ID: ${item.categoryId}`}
                       </span>
                     </div>
 

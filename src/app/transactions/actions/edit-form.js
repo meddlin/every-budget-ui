@@ -5,11 +5,14 @@ import InputWithValidation from '@/components/input';
 import InputPrice from '@/components/input-price';
 import { useBudgetItems } from '@/utility/fetchers';
 
-const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
+const TransactionsTableEditForm = ({ data }) => {
     const { budgetItems, isLoadingBudgetItems, isErrorBudgetItems } = useBudgetItems();
+
+    const { id, vendor, amount, transactionDate } = data; // "Data" from the original object
 
     const EditSchema = object();
     const initialValues = {
+        id: id,
         vendor: vendor || '',
         amount: amount || 0.00,
         transactionDate: transactionDate || ''
@@ -22,10 +25,41 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
             initialValues={initialValues}
             validationSchema={EditSchema}
             onSubmit={ async(values, actions) => {
-                // const viewModel = {};
-                // const response = await fetch(``);
+                alert(`submitted values: ${JSON.stringify(values)}`);
+                const viewModel = {
+                    id: values.id,
+                    vendor: values.vendor,
+                    amount: values.amount,
+                    // budgetItem: values.budgetItem,
+                    transactionDate: values.transactionDate
+                };
 
-                alert(`submitted values: ${JSON.stringify(values)}`)
+                await fetch(`https://localhost:7291/api/Transactions/Update/${values.id}`, {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(viewModel)
+                }).then(res => {
+                    if (res.ok) {
+                        console.log(res);
+                        console.log(`res.status: ${res.status}`)
+                        console.log(`res.ok: ${res.ok}`)
+                        return res.json();
+                    }
+                }).then(data => {
+                    console.log(`data: ${JSON.stringify(data)}`)
+
+                    const responseMessage = data && data.message ? data.message : '';
+                    if (responseMessage.toLowerCase().includes("success")) {
+                        resetUpload();
+                    }
+
+                }).catch(error => {
+                    console.log(error);
+                });
             }}
         >
             {({ setFieldValue, handleChange, handleBlur, handleReset, handleSubmit, values, errors, touched, isValid, dirty }) => (
@@ -34,7 +68,20 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                         <h2 className="text-lg font-bold">Edit Transaction</h2>
 
                         {!isLoadingBudgetItems && !isErrorBudgetItems ? (
-                            <ComboSelector choices={budgetItems} />
+                            <ComboSelector 
+                                choices={budgetItems} 
+                                name="budgetItem"
+                                id="budgetItem"
+                                value={values.budgetItem}
+                                onChange={data => {
+                                    console.log(`IN ONCHANGE: ${JSON.stringify(data)}`)
+
+                                    const { id, dateCreated, dateUpdated, categoryId, name, planned, spent, description } = data;
+
+                                    // handleChange(data);
+                                    setFieldValue('budgetItem', data)
+                                }}
+                            />
                         ) : ''}
 
                         <div className="flex">

@@ -60,9 +60,10 @@ const columns = [
                         <TransactionsTableEditModalContents>
 
                             <TransactionsTableEditForm 
-                                vendor={row.original.vendor} 
-                                amount={row.original.amount} 
-                                transactionDate={row.original.transactionDate} 
+                                data={row.original}
+                                // vendor={row.original.vendor} 
+                                // amount={row.original.amount} 
+                                // transactionDate={row.original.transactionDate} 
                             /> {/* data={row.original} */}
 
                             <TransactionsTableEditModalDismissButton>
