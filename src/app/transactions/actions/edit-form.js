@@ -51,19 +51,17 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                                 values={values.vendor}
                             />
 
-                            <InputPrice labelText={"Amount"} />
-
-                            {/* <label>Amount</label>
-                            <input
-                                id="amount"
-                                name="amount"
-                                type="number" min="1" step="any"
-                                className=""
-                                // placeholder="0.00"
-                                onChange={props.handleChange}
-                                onBlur={props.onBlur}
-                                values={props.values.amount}
-                            /> */}
+                            <InputPrice 
+                                labelText={"Amount"} 
+                                id={"amount"}
+                                name={"amount"}
+                                // type -> this will be automatically set for a specific input like this
+                                // className => not implemented yet
+                                placeholder={'0.00'}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                values={values.amount}
+                            />
                         </div>
 
                         <label>Transaction Date</label>
