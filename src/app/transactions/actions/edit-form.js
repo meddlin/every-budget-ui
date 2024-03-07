@@ -3,14 +3,19 @@ import { object } from 'yup';
 import ComboSelector from '@/components/combo-selector';
 import InputWithValidation from '@/components/input';
 import InputPrice from '@/components/input-price';
+import { useBudgetItems } from '@/utility/fetchers';
 
 const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
+    const { budgetItems, isLoadingBudgetItems, isErrorBudgetItems } = useBudgetItems();
+
     const EditSchema = object();
     const initialValues = {
         vendor: vendor || '',
         amount: amount || 0.00,
         transactionDate: transactionDate || ''
     }
+
+    // console.log(`budgetItems: ${JSON.stringify(budgetItems)}`)
 
     return (
         <Formik
@@ -26,7 +31,9 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                     <form onSubmit={props.handleSubmit}>
                         <h2 className="text-lg font-bold">Edit Transaction</h2>
 
-                        <ComboSelector />
+                        {!isLoadingBudgetItems && !isErrorBudgetItems ? (
+                            <ComboSelector choices={budgetItems} />
+                        ) : ''}
 
                         <div className="flex">
                             <InputWithValidation
@@ -69,11 +76,16 @@ const TransactionsTableEditForm = ({ vendor, amount, transactionDate }) => {
                             values={props.values.vendor}
                         />
 
-                        <button
-                            type="submit"
-                        >
-                            Save
-                        </button>
+                        <div className="flex justify-between">
+                            <button
+                                type="submit"
+                            >
+                                Save
+                            </button>
+                            <button>
+                                Reset
+                            </button>
+                        </div>
                     </form>
                 </div>
             )}

@@ -14,6 +14,16 @@ const useBudget = () => {
     }
 }
 
+const useBudgetItems = () => {
+    const { data, error, isLoading } = useSWR(`${API_URL}/api/BudgetItems/Get`, fetcher);
+
+    return {
+        budgetItems: data ? data : {},
+        isLoadingBudgetItems: isLoading,
+        isErrorBudgetItems: error
+    }
+}
+
 const useCategories = () => {
     const { data, error, isLoading } = useSWR(`${API_URL}/api/Categories/Get`, fetcher);
 
@@ -36,6 +46,7 @@ const useTransactions = () => {
 
 export {
     useBudget,
+    useBudgetItems,
     useCategories,
     useTransactions
 }

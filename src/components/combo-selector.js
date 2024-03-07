@@ -2,27 +2,23 @@ import { useState } from 'react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { Combobox } from '@headlessui/react'
 
-const budgetItems = [
-  { budgetItem: 'Mortgage', category: 'Housing' },
-  { name: 'Electric', category: 'Housing' },
-  { name: 'Water', category: 'Housing' },
-  { name: 'Car Insurance', category: 'Transportation' },
-  { name: 'Gas', category: 'Transportation' },
-  // More users...
-]
+// const budgetItems = [
+//   { budgetItem: 'Mortgage', category: 'Housing' },
+//   // More users...
+// ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-const ComboSelector = () => {
+const ComboSelector = ({ choices }) => {
   const [query, setQuery] = useState('')
   const [selectedItem, setSelectedItem] = useState(null)
 
   const filteredItems =
     query === ''
-      ? budgetItems
-      : budgetItems.filter((item) => {
+      ? choices
+      : choices.filter((item) => {
           return item.name.toLowerCase().includes(query.toLowerCase())
         })
 
