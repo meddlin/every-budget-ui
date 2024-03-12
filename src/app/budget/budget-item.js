@@ -21,7 +21,7 @@ const BudgetItem = ({ name, planned, spent, transactions }) => {
 
                 <div className="flex-col w-full">
                     <div className="flex"> {/* budget item main */}
-                        <div className="w-3/4 text-sm font-medium text-gray-900">{name}</div>
+                        <div className="w-3/4 text-sm font-medium text-gray-900">{`BI: ${name}`}</div>
                         <div className="w-1/4 flex justify-between">
 
                             <div className="flex-col">
