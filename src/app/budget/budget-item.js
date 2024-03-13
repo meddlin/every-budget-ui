@@ -13,6 +13,13 @@ import {
     BudgetItemDeleteModalDismissButton,
     BudgetItemDeleteModalOpenButton
 } from '@/components/budget-item-modals/delete-modals';
+import { 
+    TransactionsViewerModal,
+    TransactionsViewerModalContents, 
+    TransactionsViewerModalDismissButton, 
+    TransactionsViewerModalOpenButton 
+} from './transactions-viewer/transactions-viewer-modal';
+import TransactionsViewer from './transactions-viewer/transactions-viewer';
 
 const BudgetItem = ({ name, planned, spent, transactions }) => {
     return (
@@ -69,7 +76,21 @@ const BudgetItem = ({ name, planned, spent, transactions }) => {
                     </div>
                     <div> {/* budget item transactions */}
                         {transactions && transactions.length > 0 ? (
-                            <PrimaryButton text="View transactions" onClick={() => alert('View transactions clicked.')} />
+                            <TransactionsViewerModal>
+                                <TransactionsViewerModalOpenButton>
+                                    <PrimaryButton 
+                                        text="View transactions" 
+                                    />
+                                </TransactionsViewerModalOpenButton>
+                                <TransactionsViewerModalContents>
+                                    
+                                    <TransactionsViewer transactions={transactions} />
+
+                                    <TransactionsViewerModalDismissButton>
+                                        <Button text="Close" />
+                                    </TransactionsViewerModalDismissButton>
+                                </TransactionsViewerModalContents>
+                            </TransactionsViewerModal>
                         ) : (
                             <dd className="mt-1 text-sm leading-6 text-gray-700 italic sm:col-span-2 sm:mt-0">No transactions</dd>
                         )}
