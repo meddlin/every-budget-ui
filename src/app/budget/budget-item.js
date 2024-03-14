@@ -13,6 +13,13 @@ import {
     BudgetItemDeleteModalDismissButton,
     BudgetItemDeleteModalOpenButton
 } from '@/components/budget-item-modals/delete-modals';
+import { 
+    TransactionsViewerModal,
+    TransactionsViewerModalContents, 
+    TransactionsViewerModalDismissButton, 
+    TransactionsViewerModalOpenButton 
+} from './transactions-viewer/transactions-viewer-modal';
+import TransactionsViewer from './transactions-viewer/transactions-viewer';
 
 const BudgetItem = ({ name, planned, spent, transactions }) => {
     return (
@@ -21,7 +28,7 @@ const BudgetItem = ({ name, planned, spent, transactions }) => {
 
                 <div className="flex-col w-full">
                     <div className="flex"> {/* budget item main */}
-                        <div className="w-3/4 text-sm font-medium text-gray-900">{name}</div>
+                        <div className="w-3/4 text-sm font-medium text-gray-900">{`BI: ${name}`}</div>
                         <div className="w-1/4 flex justify-between">
 
                             <div className="flex-col">
@@ -69,7 +76,21 @@ const BudgetItem = ({ name, planned, spent, transactions }) => {
                     </div>
                     <div> {/* budget item transactions */}
                         {transactions && transactions.length > 0 ? (
-                            <PrimaryButton text="View transactions" onClick={() => alert('View transactions clicked.')} />
+                            <TransactionsViewerModal>
+                                <TransactionsViewerModalOpenButton>
+                                    <PrimaryButton 
+                                        text="View transactions" 
+                                    />
+                                </TransactionsViewerModalOpenButton>
+                                <TransactionsViewerModalContents>
+                                    
+                                    <TransactionsViewer transactions={transactions} />
+
+                                    <TransactionsViewerModalDismissButton>
+                                        <Button text="Close" />
+                                    </TransactionsViewerModalDismissButton>
+                                </TransactionsViewerModalContents>
+                            </TransactionsViewerModal>
                         ) : (
                             <dd className="mt-1 text-sm leading-6 text-gray-700 italic sm:col-span-2 sm:mt-0">No transactions</dd>
                         )}

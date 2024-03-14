@@ -4,12 +4,11 @@ import Category from './category';
 import { useState, useEffect } from 'react';
 import SearchBar from './search';
 import { replace } from 'formik';
-import { useCategories, useBudget } from '../../utility/fetchers';
+import { useBudget } from '../../utility/fetchers';
 
 const Budget = () => {
-    const { fetchedCategories, isLoadingCategories, isErrorCategories } = useCategories();
     const { budget, isLoadingBudget, isErrorBudget } = useBudget();
-    const [categories, setCategories] = useState(fetchedCategories);
+    const [categories, setCategories] = useState(budget.categories);
 
     /**
      * Constructor function for Category
@@ -41,6 +40,10 @@ const Budget = () => {
                 </div>
                 <div className="w-1/2">
                     <SearchBar />
+
+                    {/* DEBUG */}
+                    {/* {`Budget categories: ${budget && budget.categories ? budget.categories.length : 'no categories yet'}`}
+                    {`Budget categories[0].budgetItems: ${budget && budget.categories[0] ? budget.categories[0].budgetItems : 'no budgeItems yet'}`} */}
 
                     <div>
                         {budget && budget.categories && budget.categories.length > 0 ? budget.categories.map( (cat, idx) => (

@@ -236,7 +236,6 @@ const Transactions = () => {
                                 {table.getRowModel().rows.map((row) => (
                                     <tr 
                                         key={row.id} 
-                                        // onClick={() => setCurrentAlloy(row.original)}
                                         className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
                                         {row.getVisibleCells().map(cell => (
                                             <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
