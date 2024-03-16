@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { Formik, ErrorMessage } from 'formik';
 import { object } from 'yup';
 import { Button } from '../../../components/buttons';
@@ -5,6 +6,17 @@ import { CategoryEditModalDismissButton } from './edit-modals';
 
 const CategoryEditForm = ({ data }) => {
     const { id, name } = data;
+    const closeBtnRef = useRef(null);
+
+    useEffect(() => {
+        if (closeBtnRef && closeBtnRef.current) {
+            closeBtnRef.current.addEventListener('click', () => console.log('close button event handler'));
+
+            // return () => {
+            //     closeBtnRef.current.removeEventListener('click', () => console.log('click - removed'))
+            // }
+        }
+    }, [])
     
     const EditSchema = object();
     const initialValues = {
@@ -17,12 +29,12 @@ const CategoryEditForm = ({ data }) => {
             initialValues={initialValues}
             validationSchema={EditSchema}
             onSubmit={ async(values, actions) => {
-                // alert(`Category edit: ${JSON.stringify(values)}`)
                 const viewModel = {
                     id: values.id,
                     name: values.name
                 };
 
+                actions.setSubmitting(false);
                 await fetch(`https://localhost:7291/api/Categories/UpdateCategory`, {
                     method: 'POST',
                     mode: 'cors',
@@ -39,11 +51,11 @@ const CategoryEditForm = ({ data }) => {
                         return res.json();
                     }
                 }).then(data => {
-                    console.log(`data: ${JSON.stringify(data)}`)
-
                     const responseMessage = data && data.message ? data.message : '';
+                    
                     if (responseMessage.toLowerCase().includes("success")) {
-                        resetUpload();
+                        closeBtnRef.current.click();
+                        actions.setSubmitting(false);
                     }
 
                 }).catch(error => {
@@ -73,7 +85,10 @@ const CategoryEditForm = ({ data }) => {
                                 <Button type="submit" text="Save" />
 
                                 <CategoryEditModalDismissButton>
-                                    <Button text="Close" />
+                                    {/* <Button text="Close" ref={closeBtnRef} /> */}
+                                    <button
+                                        type="button"
+                                        ref={closeBtnRef}>Close</button>
                                 </CategoryEditModalDismissButton>
                             </div>
                         </div>
