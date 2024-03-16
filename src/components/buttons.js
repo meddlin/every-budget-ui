@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
 import { PencilSquareIcon, XCircleIcon } from '@heroicons/react/20/solid';
 
-const PrimaryButton = ({ text, type, onClick }) => {
+const PrimaryButton = ({ text, type, ref, onClick }) => {
     return (
         <button
             type={ type || `button` }
+            ref={ref}
             className="rounded bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={onClick}
         >
@@ -13,10 +14,11 @@ const PrimaryButton = ({ text, type, onClick }) => {
     );
 };
 
-const Button = ({ text, type, onClick, children }) => {
+const Button = ({ text, type, onClick, ref, children }) => {
     return (
         <button
             type={ type || `button` }
+            ref={ref}
             className="rounded bg-slate-400 px-2 py-1 text-xs font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             onClick={onClick}
         >
@@ -43,11 +45,11 @@ const DeleteButton = ({ onClick }) => {
 };
 
 PrimaryButton.propTypes = {
-    text: PropTypes.string.isRequired
+    text: PropTypes.string
 };
 
 Button.propTypes = {
-    text: PropTypes.string.isRequired
+    text: PropTypes.string
 };
 
 export { 
