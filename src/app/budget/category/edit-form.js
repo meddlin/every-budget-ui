@@ -3,10 +3,13 @@ import { Formik, ErrorMessage } from 'formik';
 import { object } from 'yup';
 import { Button } from '../../../components/buttons';
 import { CategoryEditModalDismissButton } from './edit-modals';
+import { useSWRConfig } from 'swr';
+import { API_URL } from '@/utility/constants';
 
 const CategoryEditForm = ({ data }) => {
     const { id, name } = data;
     const closeBtnRef = useRef(null);
+    const { mutate } = useSWRConfig();
 
     useEffect(() => {
         if (closeBtnRef && closeBtnRef.current) {
@@ -52,6 +55,7 @@ const CategoryEditForm = ({ data }) => {
                     if (responseMessage.toLowerCase().includes("success")) {
                         closeBtnRef.current.click();
                         actions.setSubmitting(false);
+                        mutate(`${API_URL}/api/Budgets/Get`, viewModel);
                     }
 
                 }).catch(error => {
