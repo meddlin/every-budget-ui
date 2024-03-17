@@ -8,29 +8,29 @@ import { useBudget } from '../../utility/fetchers';
 
 const Budget = () => {
     const { budget, isLoadingBudget, isErrorBudget } = useBudget();
-    const [categories, setCategories] = useState(budget.categories);
+    // const [categories, setCategories] = useState(budget.categories);
 
-    /**
-     * Constructor function for Category
-     * @returns 
-     */
-    const newCategory = () => {
-        return { 
-            name: 'new name', 
-            description: 'new desc', 
-            planned: 100.00, 
-            spent: 21.00,
-            budgetItems: []
-        };
-    }
+    // /**
+    //  * Constructor function for Category
+    //  * @returns 
+    //  */
+    // const newCategory = () => {
+    //     return { 
+    //         name: 'new name', 
+    //         description: 'new desc', 
+    //         planned: 100.00, 
+    //         spent: 21.00,
+    //         budgetItems: []
+    //     };
+    // }
 
-    function updateCategories() {
-        if (categories && categories.length > 0) {
-            return [...categories, newCategory()]
-        } else {
-            return [newCategory()]
-        }        
-    }
+    // function updateCategories() {
+    //     if (categories && categories.length > 0) {
+    //         return [...categories, newCategory()]
+    //     } else {
+    //         return [newCategory()]
+    //     }        
+    // }
 
     return (
         <div className="flex flex-col content-center justify-center">
@@ -53,9 +53,9 @@ const Budget = () => {
                             />
                         )) : 'Need to create Categories'}
 
-                        <button onClick={
+                        {/* <button onClick={
                             () => setCategories(updateCategories())
-                        }>Add Category</button>
+                        }>Add Category</button> */}
                     </div>
                 
                 </div>

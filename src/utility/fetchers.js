@@ -5,7 +5,7 @@ import { API_URL } from './constants';
 const fetcher = (...args) => fetch(...args).then(res => res.json());
 
 const useBudget = () => {
-    const { data, error, isLoading } = useSWR(`${API_URL}/api/Budgets/Get`, fetcher);
+    const { data, error, isLoading, isValidating } = useSWR(`${API_URL}/api/Budgets/Get`, fetcher);
 
     return {
         budget: data ? data : {},

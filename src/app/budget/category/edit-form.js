@@ -11,10 +11,6 @@ const CategoryEditForm = ({ data }) => {
     useEffect(() => {
         if (closeBtnRef && closeBtnRef.current) {
             closeBtnRef.current.addEventListener('click', () => console.log('close button event handler'));
-
-            // return () => {
-            //     closeBtnRef.current.removeEventListener('click', () => console.log('click - removed'))
-            // }
         }
     }, [])
     
