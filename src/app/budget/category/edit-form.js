@@ -78,7 +78,7 @@ const CategoryEditForm = ({ data }) => {
                                 placeholder="Enter name"
                                 onChange={handleChange}
                                 onBlur={handleBlur}
-                                values={values.name}
+                                value={values.name}
                             />
 
                             <div className="flex justify-between my-4">
