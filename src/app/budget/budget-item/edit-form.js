@@ -82,7 +82,7 @@ const BudgetItemEditForm = ({ data }) => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             onReset={handleReset}
-                            values={values.name}
+                            value={values.name}
                         />
 
                         <div className="flex flex-col">
@@ -98,7 +98,7 @@ const BudgetItemEditForm = ({ data }) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 onReset={handleReset}
-                                values={values.planned}
+                                value={values.planned}
                             />
 
                             <label>Spent</label>
@@ -113,7 +113,7 @@ const BudgetItemEditForm = ({ data }) => {
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 onReset={handleReset}
-                                values={values.spent}
+                                value={values.spent}
                             />
                         </div>
 

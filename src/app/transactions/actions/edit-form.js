@@ -120,7 +120,7 @@ const TransactionsTableEditForm = ({ data }) => {
                             placeholder=""
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            values={values.transactionDate}
+                            value={values.transactionDate}
                         />
 
                         <div className="flex justify-between">
