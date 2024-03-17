@@ -1,11 +1,27 @@
+import { useEffect, useRef } from 'react';
 import { Formik, ErrorMessage } from 'formik';
 import { object } from 'yup';
+import { Button } from '@/components/buttons';
+import {
+    BudgetItemEditModalDismissButton
+} from '@/components/budget-item-modals/edit-modals';
+import { useSWRConfig } from 'swr';
+import { API_URL } from '../../../utility/constants';
 
-const BudgetItemEditForm = ({ name, planned, spent }) => {
+const BudgetItemEditForm = ({ data }) => {
+    const { id, name, planned, spent } = data;
+    const closeBtnRef = useRef(null);
+    const { mutate } = useSWRConfig();
+
+    useEffect(() => {
+        if (closeBtnRef && closeBtnRef.current) {
+            closeBtnRef.current.addEventListener('click', () => console.log('Close button clicked.'))
+        }
+    })
 
     const EditSchema = object();
-
     const initialValues = {
+        id: id || '',
         name: name || '',
         planned: planned || '',
         spent: spent || ''
@@ -16,13 +32,44 @@ const BudgetItemEditForm = ({ name, planned, spent }) => {
             initialValues={initialValues}
             validationSchema={EditSchema}
             onSubmit={ async (values, actions) => {
-                const viewModel = {}
-                const response = await fetch(``)
+                const viewModel = {
+                    id: values.id,
+                    name: values.name,
+                    planned: values.planned,
+                    spent: values.spent
+                };
+
+                actions.setSubmitting(false);
+                await fetch('https://localhost:7291/api/BudgetItems/UpdateBudgetItem', {
+                    method: 'POST',
+                    mode: 'cors',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(viewModel)
+                }).then(res => {
+                    if (res.ok) {
+                        console.log(`Status: ${res.status}, Res OK: ${res.ok}, ${JSON.stringify(res)}`);
+                        return res.json();
+                    }
+                }).then(data => {
+                    const responseMessage = data && data.message ? data.message : '';
+                    
+                    if (responseMessage.toLowerCase().includes("success")) {
+                        closeBtnRef.current.click();
+                        actions.setSubmitting(false);
+                        mutate(`${API_URL}/api/Budgets/Get`, viewModel);
+                    }
+
+                }).catch(error => {
+                    console.log(error);
+                });
             }}
         >
-            {(props) => (
+            {({ setFieldValue, handleChange, handleBlur, handleReset, handleSubmit, values, errors, touched, isValid, dirty }) => (
                 <div>
-                    <form onSubmit={props.handleSubmit}>
+                    <form onSubmit={handleSubmit}>
                         <h2 className="text-lg font-bold">Edit</h2>
 
                         <label>Name</label>
@@ -32,9 +79,10 @@ const BudgetItemEditForm = ({ name, planned, spent }) => {
                             type="text"
                             className=""
                             placeholder="Enter name"
-                            onChange={props.handleChange}
-                            onBlur={props.onBlur}
-                            values={props.values.planned}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            onReset={handleReset}
+                            values={values.name}
                         />
 
                         <div className="flex flex-col">
@@ -47,9 +95,10 @@ const BudgetItemEditForm = ({ name, planned, spent }) => {
                                 step="any"
                                 className=""
                                 placeholder="0.00"
-                                onChange={props.handleChange}
-                                onBlur={props.onBlur}
-                                values={props.values.planned}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                onReset={handleReset}
+                                values={values.planned}
                             />
 
                             <label>Spent</label>
@@ -61,17 +110,22 @@ const BudgetItemEditForm = ({ name, planned, spent }) => {
                                 step="any"
                                 className=""
                                 placeholder="0.00"
-                                onChange={props.handleChange}
-                                onBlur={props.onBlur}
-                                values={props.values.planned}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                onReset={handleReset}
+                                values={values.spent}
                             />
                         </div>
 
-                        <button
-                            type="submit"
-                        >
-                            Save
-                        </button>
+                        <div className="flex justify-between my-4">
+                                <Button type="submit" text="Save" />
+
+                                <BudgetItemEditModalDismissButton>
+                                    <button
+                                        type="button"
+                                        ref={closeBtnRef}>Close</button>
+                                </BudgetItemEditModalDismissButton>
+                            </div>
                     </form>
                 </div>
             )}

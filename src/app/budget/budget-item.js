@@ -21,7 +21,8 @@ import {
 } from './transactions-viewer/transactions-viewer-modal';
 import TransactionsViewer from './transactions-viewer/transactions-viewer';
 
-const BudgetItem = ({ name, planned, spent, transactions }) => {
+const BudgetItem = ({ data, mutateBudget }) => {
+    const { name, planned, spent, transactions } = data;
     return (
         <div className="border-t border-gray-100">
             <div className="flex px-4 py-6 sm:gap-4 sm:px-6">
@@ -39,7 +40,9 @@ const BudgetItem = ({ name, planned, spent, transactions }) => {
                                         </BudgetItemEditModalOpenButton>
                                         <BudgetItemEditModalContents>
                                             
-                                            <BudgetItemEditForm name={name} planned={planned} spent={spent} />
+                                            <BudgetItemEditForm 
+                                                data={data} 
+                                            />
 
                                             <BudgetItemEditModalDismissButton>
                                                 <Button text="Close" />

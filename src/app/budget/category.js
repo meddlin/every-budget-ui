@@ -54,11 +54,8 @@ const Category = ({ data }) => {
 
             {stateBudgetItems && stateBudgetItems.length > 0 ? stateBudgetItems.map((budgetItem, idx) => (
                 <BudgetItem 
-                    key={idx} 
-                    name={budgetItem.name} 
-                    planned={budgetItem.planned} 
-                    spent={budgetItem.spent} 
-                    transactions={budgetItem.transactions}
+                    key={idx}
+                    data={budgetItem}
                 />
             )) : <p>No items to show</p>}
 
