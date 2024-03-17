@@ -49,7 +49,6 @@ const Budget = () => {
                         {budget && budget.categories && budget.categories.length > 0 ? budget.categories.map( (cat, idx) => (
                             <Category
                                 key={idx}
-                                mutateBudget={mutate}
                                 data={cat}
                             />
                         )) : 'Need to create Categories'}
