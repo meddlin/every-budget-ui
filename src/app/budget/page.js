@@ -45,6 +45,8 @@ const Budget = () => {
                     {/* {`Budget categories: ${budget && budget.categories ? budget.categories.length : 'no categories yet'}`}
                     {`Budget categories[0].budgetItems: ${budget && budget.categories[0] ? budget.categories[0].budgetItems : 'no budgeItems yet'}`} */}
 
+                    <h2 className="text-2xl my-4">{budget.name}</h2>
+
                     <div>
                         {budget && budget.categories && budget.categories.length > 0 ? budget.categories.map( (cat, idx) => (
                             <Category
