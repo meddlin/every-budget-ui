@@ -3,12 +3,13 @@
 import Category from './category';
 import { useState, useEffect } from 'react';
 import SearchBar from './search';
-import { replace } from 'formik';
 import { useBudget } from '../../utility/fetchers';
+import BudgetNameEditor from '@/components/budget-name-editor';
 
 const Budget = () => {
     const { budget, isLoadingBudget, isErrorBudget } = useBudget();
     // const [categories, setCategories] = useState(budget.categories);
+    const [editBudgetName, setEditBudgetName] = useState(false);
 
     // /**
     //  * Constructor function for Category
@@ -45,7 +46,16 @@ const Budget = () => {
                     {/* {`Budget categories: ${budget && budget.categories ? budget.categories.length : 'no categories yet'}`}
                     {`Budget categories[0].budgetItems: ${budget && budget.categories[0] ? budget.categories[0].budgetItems : 'no budgeItems yet'}`} */}
 
-                    <h2 className="text-2xl my-4">{budget.name}</h2>
+                    {editBudgetName ? (
+                        <>
+                            <BudgetNameEditor 
+                                data={{id: budget.id, name: budget.name}} 
+                                callback={() => setEditBudgetName(!editBudgetName)}
+                            />
+                        </>
+                    ) : (
+                        <h2 className="text-2xl my-4" onClick={() => setEditBudgetName(!editBudgetName)}>{budget.name}</h2>
+                    )}                    
 
                     <div>
                         {budget && budget.categories && budget.categories.length > 0 ? budget.categories.map( (cat, idx) => (
