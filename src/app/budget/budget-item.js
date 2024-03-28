@@ -21,8 +21,17 @@ import {
 } from './transactions-viewer/transactions-viewer-modal';
 import TransactionsViewer from './transactions-viewer/transactions-viewer';
 
-const BudgetItem = ({ data, mutateBudget }) => {
+const BudgetItem = ({ data }) => {
     const { name, planned, spent, transactions } = data;
+
+    const transactionsSum = (transactions) => {
+        let sum = 0;
+        transactions.forEach( trn => {
+            sum = trn.amount + sum;
+        })
+        return sum;
+    }
+
     return (
         <div className="border-t border-gray-100">
             <div className="flex px-4 py-6 sm:gap-4 sm:px-6">
@@ -70,7 +79,7 @@ const BudgetItem = ({ data, mutateBudget }) => {
                                         <MoneyDisplay label="Planned" amount={planned} />
                                     </div>
                                     <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                        <MoneyDisplay label="Spent" amount={spent} />
+                                        <MoneyDisplay label="Spent" amount={transactionsSum(transactions)} />
                                     </div>
                                 </div>
                             </div>
