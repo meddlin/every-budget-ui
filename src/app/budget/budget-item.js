@@ -20,6 +20,7 @@ import {
     TransactionsViewerModalOpenButton 
 } from './transactions-viewer/transactions-viewer-modal';
 import TransactionsViewer from './transactions-viewer/transactions-viewer';
+import { round } from '../../utility/calculators';
 
 const BudgetItem = ({ data }) => {
     const { name, planned, spent, transactions } = data;
@@ -29,14 +30,14 @@ const BudgetItem = ({ data }) => {
      * Found here: https://stackoverflow.com/a/49862458
      * Referenced from here: https://stackoverflow.com/questions/11832914/how-to-round-to-at-most-2-decimal-places-if-necessary
      */
-    const round = (n, p) => {
-        const n1 = n * Math.pow(10, p + 1);
-        const n2 = Math.floor(n1 / 10);
-        if (n1 >= (n2 * 10 + 5)) {
-            return (n2 + 1) / Math.pow(10, p);
-        }
-        return n2 / Math.pow(10, p);
-    }
+    // const round = (n, p) => {
+    //     const n1 = n * Math.pow(10, p + 1);
+    //     const n2 = Math.floor(n1 / 10);
+    //     if (n1 >= (n2 * 10 + 5)) {
+    //         return (n2 + 1) / Math.pow(10, p);
+    //     }
+    //     return n2 / Math.pow(10, p);
+    // }
     
     const transactionsSum = (transactions) => {
         let sum = 0;
