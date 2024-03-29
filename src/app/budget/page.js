@@ -57,17 +57,26 @@ const Budget = () => {
                         <h2 className="text-2xl my-4" onClick={() => setEditBudgetName(!editBudgetName)}>{budget.name}</h2>
                     )}                    
 
-                    <div>
-                        {budget && budget.categories && budget.categories.length > 0 ? budget.categories.map( (cat, idx) => (
-                            <Category
-                                key={idx}
-                                data={cat}
-                            />
-                        )) : 'Need to create Categories'}
+                    <div className="flex">
+                        <div className="flex flex-col min-w-[75%]">
+                            {budget && budget.categories && budget.categories.length > 0 ? budget.categories.map( (cat, idx) => (
+                                <Category
+                                    key={idx}
+                                    data={cat}
+                                />
+                            )) : 'Need to create Categories'}
 
-                        {/* <button onClick={
-                            () => setCategories(updateCategories())
-                        }>Add Category</button> */}
+                            {/* <button onClick={
+                                () => setCategories(updateCategories())
+                            }>Add Category</button> */}
+                        </div>
+                        <div className="flex flex-col max-w-[25%]">
+                            <div>{budget && budget.categories && budget.categories.length > 0 ? (
+                                budget.categories[0].budgetItems[0].transactions.map( txn => {
+                                    return <div>{JSON.stringify(txn)}</div>
+                                })
+                            ) : ''}</div>
+                        </div>
                     </div>
                 
                 </div>
