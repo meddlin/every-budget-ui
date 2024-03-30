@@ -13,7 +13,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@heroicons/react": "^2.1.1",
-    "@tanstack/react-table": "^8.15.1",
+    "@tanstack/react-table": "^8.15.3",
     "formik": "^2.4.5",
     "next": "14.1.4",
     "papaparse": "^5.4.1",
