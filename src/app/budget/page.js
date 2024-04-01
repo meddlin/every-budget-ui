@@ -5,11 +5,27 @@ import { useState, useEffect } from 'react';
 import SearchBar from './search';
 import { useBudget } from '../../utility/fetchers';
 import BudgetNameEditor from '@/components/budget-name-editor';
+import TransactionsSideBar from '@/components/transactions-side-bar';
 
 const Budget = () => {
     const { budget, isLoadingBudget, isErrorBudget } = useBudget();
+    const [groupedTransactions, setGroupedTransactions] = useState([]);
     // const [categories, setCategories] = useState(budget.categories);
     const [editBudgetName, setEditBudgetName] = useState(false);
+
+    const collapseTransactions = (budget) => {
+        let txns = [];
+
+        budget && budget.categories ? budget.categories.forEach( cat => {
+            cat.budgetItems.forEach( bi => {
+                bi.transactions.forEach( tr => {
+                    txns.push(tr)
+                })
+            })
+        }) : [];
+
+        return txns;
+    }
 
     // /**
     //  * Constructor function for Category
@@ -70,18 +86,17 @@ const Budget = () => {
                                 () => setCategories(updateCategories())
                             }>Add Category</button> */}
                         </div>
-                        <div className="flex flex-col max-w-[25%]">
-                            <div>{budget && budget.categories && budget.categories.length > 0 ? (
-                                budget.categories[0].budgetItems[0].transactions.map( txn => {
-                                    return <div>{JSON.stringify(txn)}</div>
-                                })
-                            ) : ''}</div>
-                        </div>
+                        {/* <div className="flex flex-col max-w-[25%]">
+                            
+                        </div> */}
                     </div>
                 
                 </div>
                 <div className="w-1/4">
                     {/* right gutter */}
+                    {budget ? 
+                                <TransactionsSideBar transactions={collapseTransactions(budget)} /> : ''
+                            }
                 </div>
             </div>
         </div>
