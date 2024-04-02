@@ -6,6 +6,7 @@ import SearchBar from './search';
 import { useBudget } from '../../utility/fetchers';
 import BudgetNameEditor from '@/components/budget-name-editor';
 import TransactionsSideBar from '@/components/transactions-side-bar';
+import { DndContext, useDndMonitor } from '@dnd-kit/core';
 
 const Budget = () => {
     const { budget, isLoadingBudget, isErrorBudget } = useBudget();
@@ -52,50 +53,63 @@ const Budget = () => {
     return (
         <div className="flex flex-col content-center justify-center">
             <div className="flex">
-                <div className="w-1/4">
-                    {/* left gutter */}
-                </div>
-                <div className="w-1/2">
-                    <SearchBar />
+                <DndContext
+                    // onDragStart={(event) => {
+                    //     // const { active, over } = event;
+                    //     // do more stuff with event
+                    // }}
+                    onDragEnd={(event) => {
+                        const { active, over } = event;
+                        console.log(`ACTIVE -> ${JSON.stringify(active)}`)
+                        console.log(`OVER -> ${JSON.stringify(over)}`)
+                    }}
+                >
+                    <div className="w-1/4">
+                        {/* left gutter */}
+                    </div>
+                    <div className="w-1/2">
+                        <SearchBar />
 
-                    {/* DEBUG */}
-                    {/* {`Budget categories: ${budget && budget.categories ? budget.categories.length : 'no categories yet'}`}
-                    {`Budget categories[0].budgetItems: ${budget && budget.categories[0] ? budget.categories[0].budgetItems : 'no budgeItems yet'}`} */}
+                        {/* DEBUG */}
+                        {/* {`Budget categories: ${budget && budget.categories ? budget.categories.length : 'no categories yet'}`}
+                        {`Budget categories[0].budgetItems: ${budget && budget.categories[0] ? budget.categories[0].budgetItems : 'no budgeItems yet'}`} */}
 
-                    {editBudgetName ? (
-                        <>
-                            <BudgetNameEditor 
-                                data={{id: budget.id, name: budget.name}} 
-                                callback={() => setEditBudgetName(!editBudgetName)}
-                            />
-                        </>
-                    ) : (
-                        <h2 className="text-2xl my-4" onClick={() => setEditBudgetName(!editBudgetName)}>{budget.name}</h2>
-                    )}                    
-
-                    <div className="flex">
-                        <div className="flex flex-col min-w-[75%]">
-                            {budget && budget.categories && budget.categories.length > 0 ? budget.categories.map( (cat, idx) => (
-                                <Category
-                                    key={idx}
-                                    data={cat}
+                        {editBudgetName ? (
+                            <>
+                                <BudgetNameEditor 
+                                    data={{id: budget.id, name: budget.name}} 
+                                    callback={() => setEditBudgetName(!editBudgetName)}
                                 />
-                            )) : 'Need to create Categories'}
+                            </>
+                        ) : (
+                            <h2 className="text-2xl my-4" onClick={() => setEditBudgetName(!editBudgetName)}>{budget.name}</h2>
+                        )}
 
-                            {/* <button onClick={
-                                () => setCategories(updateCategories())
-                            }>Add Category</button> */}
+                        <div className="flex">
+                            <div className="flex flex-col min-w-[75%]">
+                                {budget && budget.categories && budget.categories.length > 0 ? budget.categories.map( (cat, idx) => (
+                                    <Category
+                                        key={idx}
+                                        data={cat}
+                                    />
+                                )) : 'Need to create Categories'}
+
+                                {/* <button onClick={
+                                    () => setCategories(updateCategories())
+                                }>Add Category</button> */}
+                            </div>
+                        </div>
+                    
+                    </div>
+                    <div className="w-1/4 my-36 ">
+                        {/* right gutter */}
+                        <h3>Untracked Transactions</h3>
+                        {/* <div className="max-h-[25%] overflow-y-auto"> */}
+                        <div className="">
+                            {budget ? <TransactionsSideBar transactions={collapseTransactions(budget)} /> : '' }
                         </div>
                     </div>
-                
-                </div>
-                <div className="w-1/4 my-36">
-                    {/* right gutter */}
-                    <h3>Untracked Transactions</h3>
-                    <div className="max-h-[25%] overflow-y-auto">
-                        {budget ? <TransactionsSideBar transactions={collapseTransactions(budget)} /> : '' }
-                    </div>
-                </div>
+                </DndContext>
             </div>
         </div>
     )
