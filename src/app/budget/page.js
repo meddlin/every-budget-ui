@@ -86,17 +86,15 @@ const Budget = () => {
                                 () => setCategories(updateCategories())
                             }>Add Category</button> */}
                         </div>
-                        {/* <div className="flex flex-col max-w-[25%]">
-                            
-                        </div> */}
                     </div>
                 
                 </div>
-                <div className="w-1/4">
+                <div className="w-1/4 my-36">
                     {/* right gutter */}
-                    {budget ? 
-                                <TransactionsSideBar transactions={collapseTransactions(budget)} /> : ''
-                            }
+                    <h3>Untracked Transactions</h3>
+                    <div className="max-h-[25%] overflow-y-auto">
+                        {budget ? <TransactionsSideBar transactions={collapseTransactions(budget)} /> : '' }
+                    </div>
                 </div>
             </div>
         </div>
