@@ -106,7 +106,8 @@ const BudgetItem = ({ data }) => {
                                             <MoneyDisplay label="Planned" amount={planned} />
                                         </div>
                                         <div className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">
-                                            <MoneyDisplay label="Spent" amount={transactionsSum(transactions)} />
+                                            <MoneyDisplay label="Spent" amount={spent} />
+                                            {/* <MoneyDisplay label="Spent" amount={transactionsSum(transactions)} /> */}
                                         </div>
                                     </div>
                                 </div>
