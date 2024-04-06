@@ -10,9 +10,10 @@ const TransactionsSideBar = ({ transactions }) => {
                     transactions.map((txn, key) => {
                         return (
                             <div key={key} 
-                                onClick={() => alert('clicked transaction')}
+                                // onClick={() => alert('clicked transaction')}
                                 className="flex flex-col ">
                                     <TransactionsSideBarDisplay 
+                                        id={txn.id}
                                         vendor={txn.vendor}
                                         amount={txn.amount}
                                         date={txn.transactionDate} />
