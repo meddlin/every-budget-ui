@@ -62,6 +62,42 @@ const Budget = () => {
                         const { active, over } = event;
                         console.log(`ACTIVE -> ${JSON.stringify(active)}`)
                         console.log(`OVER -> ${JSON.stringify(over)}`)
+
+                        const viewModel = {
+                            id: active.data.current.transactionId,
+                            dateUpdated: new Date(),
+                            vendor: '',
+                            amount: 0,
+                            transactionDate: new Date(),
+                            notes: 'some notes',
+                            budgetItemId: over.data.current.budgetItemId
+                        }
+
+                        fetch(`https://localhost:7291/api/Transactions/RelateToBudgetItem`, {
+                            method: 'POST',
+                            mode: 'cors',
+                            cache: 'no-cache',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(viewModel)
+                        }).then(res => {
+                            if (res.ok) {
+                                console.log(res);
+                                console.log(`res.status: ${res.status}`)
+                                console.log(`res.ok: ${res.ok}`)
+                                return res.json();
+                            }
+                        }).then(data => {
+                            const responseMessage = data && data.message ? data.message : '';
+                            
+                            if (responseMessage.toLowerCase().includes("success")) {
+                                console.log('success happened')
+                            }
+        
+                        }).catch(error => {
+                            console.log(error);
+                        });
                     }}
                 >
                     <div className="w-1/4">
