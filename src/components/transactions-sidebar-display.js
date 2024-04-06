@@ -1,13 +1,16 @@
 import { round } from '../utility/calculators';
 import { useDraggable } from '@dnd-kit/core';
 
-const TransactionsSideBarDisplay = ({ vendor, amount, date}) => {
+const TransactionsSideBarDisplay = ({ id, vendor, amount, date }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
-        id: `draggable-${vendor}-${amount}`
+        id: `draggable-${vendor}-${amount}`,
+        data: {
+            transactionId: id
+        }
     });
     const style = transform ? {
         transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`
-      } : undefined;
+    } : undefined;
 
     return (
         <div ref={setNodeRef} style={style} 

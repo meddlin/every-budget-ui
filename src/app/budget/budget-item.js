@@ -24,9 +24,12 @@ import { round } from '../../utility/calculators';
 import { useDroppable } from '@dnd-kit/core';
 
 const BudgetItem = ({ data }) => {
-    const { name, planned, spent, transactions } = data;
+    const { id, name, planned, spent, transactions } = data;
     const { isOver, setNodeRef } = useDroppable({
-        id: `droppable-${name}`
+        id: `droppable-${name}`,
+        data: {
+            budgetItemId: id
+        }
     });
     const style = {
         color: isOver ? 'green' : undefined
