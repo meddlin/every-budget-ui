@@ -1,7 +1,10 @@
 'use client';
 
-import Category from './category';
 import { useState, useEffect } from 'react';
+import { API_URL } from '@/utility/constants';
+import { useSWRConfig } from 'swr';
+
+import Category from './category';
 import SearchBar from './search';
 import { useBudget } from '../../utility/fetchers';
 import BudgetNameEditor from '@/components/budget-name-editor';
@@ -13,6 +16,7 @@ const Budget = () => {
     const [groupedTransactions, setGroupedTransactions] = useState([]);
     // const [categories, setCategories] = useState(budget.categories);
     const [editBudgetName, setEditBudgetName] = useState(false);
+    const { mutate } = useSWRConfig();
 
     const collapseTransactions = (budget) => {
         let txns = [];
@@ -92,7 +96,8 @@ const Budget = () => {
                             const responseMessage = data && data.message ? data.message : '';
                             
                             if (responseMessage.toLowerCase().includes("success")) {
-                                console.log('success happened')
+                                console.log('success happened');
+                                mutate(`${API_URL}/api/Budgets/Get`, viewModel);
                             }
         
                         }).catch(error => {
