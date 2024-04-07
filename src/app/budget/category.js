@@ -36,7 +36,7 @@ const Category = ({ data }) => {
             <div className="px-4 py-2 sm:px-6">
                 <div className="flex justify-between">
                     <div className="flex flex-col">
-                        <h3 className="text-base font-semibold leading-7 text-gray-900">{`Cat: ${name}`}</h3>
+                        <h3 className="text-base font-semibold leading-7 text-gray-900">{name}</h3>
                     </div>
                     <div className="flex flex-col">
                         <CategoryEditModal>
