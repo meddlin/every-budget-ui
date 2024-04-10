@@ -115,7 +115,7 @@ const Transactions = () => {
     function resetUpload() {
         uploadInput.current.value = null;
 
-        toggleTables()
+        // toggleTables()
         setCsvData([]);
     }
 
@@ -202,52 +202,50 @@ const Transactions = () => {
                     </button>
                 </div>
 
-                {showPreviewTable ? (
+                
+                
+                
+                <div className="flex flex-row-reverse">
                     <CsvPreviewTable data={csvData} />
-                ) : ''}
 
-                    
-                {showTransactionTable ? (
-                    <div>
-                        <h2>View - Stored Transactions</h2>
-                        <table>
-                            <thead>
-                                {table.getHeaderGroups().map((headerGroup) => (
-                                    <tr key={headerGroup.id}>
-                                        {headerGroup.headers.map((header) => (
-                                            <th key={header.id} className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                {
-                                                    header.isPlaceholder 
-                                                    ? null 
-                                                    : (<>
-                                                        <div>
-                                                            {flexRender(
-                                                                header.column.columnDef.header, header.getContext() 
-                                                            )}
-                                                        </div>
-                                                    </>)
-                                                }
-                                            </th>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </thead>
-                            <tbody>
-                                {table.getRowModel().rows.map((row) => (
-                                    <tr 
-                                        key={row.id} 
-                                        className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
-                                        {row.getVisibleCells().map(cell => (
-                                            <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                ) : ''}
+                    <h2>View - Stored Transactions</h2>
+                    <table>
+                        <thead>
+                            {table.getHeaderGroups().map((headerGroup) => (
+                                <tr key={headerGroup.id}>
+                                    {headerGroup.headers.map((header) => (
+                                        <th key={header.id} className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                            {
+                                                header.isPlaceholder 
+                                                ? null 
+                                                : (<>
+                                                    <div>
+                                                        {flexRender(
+                                                            header.column.columnDef.header, header.getContext() 
+                                                        )}
+                                                    </div>
+                                                </>)
+                                            }
+                                        </th>
+                                    ))}
+                                </tr>
+                            ))}
+                        </thead>
+                        <tbody>
+                            {table.getRowModel().rows.map((row) => (
+                                <tr 
+                                    key={row.id} 
+                                    className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
+                                    {row.getVisibleCells().map(cell => (
+                                        <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                        </td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     );
