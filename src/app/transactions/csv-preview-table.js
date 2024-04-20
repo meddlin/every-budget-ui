@@ -14,13 +14,20 @@ import {
     getFacetedMinMaxValues,
     sortingFns,
 } from "@tanstack/react-table";
+import { useDraggable } from '@dnd-kit/core';
 
 const columnHelper = createColumnHelper();
 const columns = [
     columnHelper.accessor('Description', {
-        header: () => <h3>Tr. Category</h3>,
+        header: () => <h3>Description</h3>,
         cell: info => {
-            return info.getValue().substring(0, 30)
+            const description = info.getValue()
+            if (description.length > 30 ) {
+                return `${info.getValue().substring(0, 30)}...`
+            }
+            else {
+                return info.getValue().substring(0, 30)
+            }
         }
     }),
     columnHelper.accessor('Transaction Category', {
@@ -38,7 +45,7 @@ const columns = [
 ];
 
 const CsvPreviewTable = ({ data }) => {
-    const header = data && data.length > 0 ? Object.keys(data[0]) : [];
+    // const header = data && data.length > 0 ? Object.keys(data[0]) : [];
 
     const table = useReactTable({
         columns,
@@ -107,7 +114,7 @@ const CsvPreviewTable = ({ data }) => {
                             <tbody>
                                 {table.getRowModel().rows.map((row) => (
                                     <tr 
-                                        key={row.id} 
+                                        key={row.id}
                                         className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
                                         {row.getVisibleCells().map(cell => (
                                             <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
