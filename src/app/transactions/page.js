@@ -33,6 +33,7 @@ import {
 import CsvPreviewTable from './csv-preview-table';
 import { transformCsvData } from '@/utility/transformers';
 import Papa from 'papaparse';
+import { DndContext } from '@dnd-kit/core';
 
 const columnHelper = createColumnHelper();
 const columns = [
@@ -46,7 +47,9 @@ const columns = [
     }),
     columnHelper.accessor('transactionDate', {
         header: () => <h3>Transaction Date</h3>,
-        cell: info => info.getValue()
+        cell: info => {
+            return new Date(info.getValue()).toLocaleDateString()
+        }
     }),
     columnHelper.accessor('edit_button', {
         header: () => '',
@@ -104,18 +107,8 @@ const Transactions = () => {
     const [csvData, setCsvData] = useState([]);
     const uploadInput = useRef(null);
 
-    const [showTransactionTable, setShowTransactionTable] = useState(true);
-    const [showPreviewTable, setShowPreviewTable] = useState(false);
-
-    function toggleTables() {
-        setShowTransactionTable( !showTransactionTable );
-        setShowPreviewTable( !showPreviewTable );
-    }
-
     function resetUpload() {
         uploadInput.current.value = null;
-
-        toggleTables()
         setCsvData([]);
     }
 
@@ -164,7 +157,6 @@ const Transactions = () => {
             skipEmptyLines: true,
             complete: function (results) {
                 console.log(results.data)
-                toggleTables()
                 setCsvData(results.data)
             },
         });
@@ -183,7 +175,7 @@ const Transactions = () => {
     return (
         <div className="flex justify-center">
             <div className="flex flex-col">
-                <div className="flex">
+                <div className="flex flex-col">
                     <input placeholder="Search..." />
                     <input 
                         type="file" 
@@ -191,63 +183,22 @@ const Transactions = () => {
                         accept=".csv"
                         onChange={(event) => handleFileChange(event)}
                     />
-                    <button
-                        ref={uploadInput}
-                        onClick={() => handleUpload()}
-                    >Upload</button>
-                    <button
-                        onClick={() => resetUpload()}
-                    >
-                        Cancel
-                    </button>
-                </div>
-
-                {showPreviewTable ? (
-                    <CsvPreviewTable data={csvData} />
-                ) : ''}
-
-                    
-                {showTransactionTable ? (
-                    <div>
-                        <h2>View - Stored Transactions</h2>
-                        <table>
-                            <thead>
-                                {table.getHeaderGroups().map((headerGroup) => (
-                                    <tr key={headerGroup.id}>
-                                        {headerGroup.headers.map((header) => (
-                                            <th key={header.id} className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                {
-                                                    header.isPlaceholder 
-                                                    ? null 
-                                                    : (<>
-                                                        <div>
-                                                            {flexRender(
-                                                                header.column.columnDef.header, header.getContext() 
-                                                            )}
-                                                        </div>
-                                                    </>)
-                                                }
-                                            </th>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </thead>
-                            <tbody>
-                                {table.getRowModel().rows.map((row) => (
-                                    <tr 
-                                        key={row.id} 
-                                        className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
-                                        {row.getVisibleCells().map(cell => (
-                                            <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                            </td>
-                                        ))}
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                    <div className="flex flex-row justify-between my-4">
+                        <button
+                            ref={uploadInput}
+                            onClick={() => handleUpload()}
+                        >Upload</button>
+                        <button
+                            onClick={() => resetUpload()}
+                        >
+                            Cancel
+                        </button>
                     </div>
-                ) : ''}
+                </div>
+                
+                <div className="flex flex-row-reverse">
+                    <CsvPreviewTable data={csvData} />
+                </div>
             </div>
         </div>
     );
