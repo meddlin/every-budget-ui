@@ -103,7 +103,7 @@ const columns = [
 ];
 
 const Transactions = () => {
-    const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
+    // const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
     const [csvData, setCsvData] = useState([]);
     const uploadInput = useRef(null);
 
@@ -116,7 +116,7 @@ const Transactions = () => {
         console.log('upload clicked')
 
         // const response = await fetch('https://localhost:7291/api/Transactions/Upload', {
-        await fetch('https://localhost:7291/api/Transactions/Upload', {
+        await fetch('https://localhost:7291/api/UploadedTransactions/Upload', {
             method: 'POST',
             mode: 'cors',
             cache: 'no-cache',
@@ -161,16 +161,6 @@ const Transactions = () => {
             },
         });
     }
-
-    const table = useReactTable({
-        columns,
-        data: (fetchedTransactions && fetchedTransactions.length > 0) ? fetchedTransactions : [],
-        // state: {
-        //     columnFilters,
-        //     globalFilter,
-        // },
-        getCoreRowModel: getCoreRowModel(),
-    });
 
     return (
         <div className="flex justify-center">
