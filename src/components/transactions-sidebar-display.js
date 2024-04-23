@@ -1,7 +1,8 @@
 import { round } from '../utility/calculators';
 import { useDraggable } from '@dnd-kit/core';
+import Badge from '../components/badge';
 
-const TransactionsSideBarDisplay = ({ id, vendor, amount, date }) => {
+const TransactionsSideBarDisplay = ({ id, vendor, amount, date, importedFlag }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
         id: `draggable-${vendor}-${amount}`,
         data: {
@@ -24,8 +25,17 @@ const TransactionsSideBarDisplay = ({ id, vendor, amount, date }) => {
                     <span>{`$ ${round(amount, 2)}`}</span>
                 </div>
             </div>
-            <div className="italic text-slate-500">
-                {new Date(date).toLocaleDateString()}
+            <div className="flex justify-between">
+                <div>
+                    <div className="italic text-slate-500">
+                        {new Date(date).toLocaleDateString()}
+                    </div>
+                </div>
+                <div>
+                    {importedFlag ? (
+                        <Badge text="imported" />
+                    ) : ''}
+                </div>
             </div>
         </div>
     );
