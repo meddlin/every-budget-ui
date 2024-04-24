@@ -24,8 +24,25 @@ const Budget = () => {
         budget && budget.categories ? budget.categories.forEach( cat => {
             cat.budgetItems.forEach( bi => {
                 bi.transactions.forEach( tr => {
-                    txns.push(tr)
+                    // console.log(`Transaction - ${JSON.stringify(tr)}`)
+                    console.log(`Transaction - ${JSON.stringify(tr.transactionDate)}`)
+                    txns.push({ 
+                        amount: tr.amount, 
+                        vendor: tr.vendor, 
+                        date: tr.transactionDate,
+                        imported: false
+                    })
                 })
+            })
+        }) : [];
+
+        budget && budget.uploadedTransactions ? budget.uploadedTransactions.forEach( uplTxn => {
+            // console.log(JSON.stringify(uplTxn))
+            txns.push({ 
+                amount: uplTxn.amount, 
+                vendor: uplTxn.description, 
+                date: uplTxn.effectiveDate,
+                imported: true
             })
         }) : [];
 

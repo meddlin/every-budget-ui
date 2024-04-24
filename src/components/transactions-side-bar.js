@@ -16,7 +16,8 @@ const TransactionsSideBar = ({ transactions }) => {
                                         id={txn.id}
                                         vendor={txn.vendor}
                                         amount={txn.amount}
-                                        date={txn.transactionDate} />
+                                        date={txn.transactionDate}
+                                        importedFlag={txn.imported} />
                             </div>
                         )
                     })
