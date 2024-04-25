@@ -1,3 +1,5 @@
+import { TrashIcon } from "@heroicons/react/20/solid";
+import { DeleteButton } from '@/components/buttons';
 
 const TransactionDetail = ({ id, vendor, amount, transactionDate, imported }) => {
     return (
@@ -21,6 +23,9 @@ const TransactionDetail = ({ id, vendor, amount, transactionDate, imported }) =>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:col-span-2 sm:mt-0">{imported ? 'True' : 'False'}</dd>
                     </div>
                 </dl>
+                <hr />
+                <DeleteButton onClick={() => alert(`delete: transaction - ${id}`)} />
+                {/* <TrashIcon className="h-5 w-5" aria-hidden="true" /> */}
             </div>
         </div>
     );
