@@ -16,7 +16,7 @@ const TransactionsSideBarDisplay = ({ id, vendor, amount, date, importedFlag }) 
 
     return (
         <div 
-            // ref={setNodeRef} 
+            ref={setNodeRef} 
             style={style} 
             className={`${transform ? 'z-40' : ''} text-sm my-2 mr-12 p-2 hover:bg-slate-100 hover:border hover:border-slate-300 border-white border rounded-md cursor-pointer`}
             >
