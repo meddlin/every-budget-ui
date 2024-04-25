@@ -1,6 +1,7 @@
 import { round } from '../utility/calculators';
 import { useDraggable } from '@dnd-kit/core';
 import Badge from '../components/badge';
+import { TrashIcon } from '@heroicons/react/24/outline';
 
 const TransactionsSideBarDisplay = ({ id, vendor, amount, date, importedFlag }) => {
     const { attributes, listeners, setNodeRef, transform } = useDraggable({
@@ -14,7 +15,9 @@ const TransactionsSideBarDisplay = ({ id, vendor, amount, date, importedFlag }) 
     } : undefined;
 
     return (
-        <div ref={setNodeRef} style={style} 
+        <div 
+            // ref={setNodeRef} 
+            style={style} 
             className={`${transform ? 'z-40' : ''} text-sm my-2 mr-12 p-2 hover:bg-slate-100 hover:border hover:border-slate-300 border-white border rounded-md cursor-pointer`}
             >
             <div className="flex justify-between" {...listeners} {...attributes}>
@@ -37,6 +40,7 @@ const TransactionsSideBarDisplay = ({ id, vendor, amount, date, importedFlag }) 
                     ) : ''}
                 </div>
             </div>
+            {/* <TrashIcon className="h-5 w-5" aria-hidden="true" /> */}
         </div>
     );
 };
