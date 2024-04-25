@@ -21,15 +21,15 @@ import {
     TransactionsTableEditModalContents, 
     TransactionsTableEditModalDismissButton, 
     TransactionsTableEditModalOpenButton 
-} from './actions/edit-modal';
-import TransactionsTableEditForm from './actions/edit-form';
-import TransactionsTableDeleteForm from './actions/delete-form';
+} from './actions/transactions-table-edit-modal';
+import TransactionsTableEditForm from './actions/transactions-table-edit-form';
+import TransactionsTableDeleteForm from './actions/transactions-table-delete-form';
 import { 
     TransactionsTableDeleteModal,
     TransactionsTableDeleteModalContents,
     TransactionsTableDeleteModalOpenButton,
     TransactionsTableDeleteModalDismissButton
-} from './actions/delete-modal';
+} from './actions/transactions-table-delete-modal';
 import CsvPreviewTable from './csv-preview-table';
 import { transformCsvData } from '@/utility/transformers';
 import Papa from 'papaparse';

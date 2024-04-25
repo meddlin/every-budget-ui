@@ -61,9 +61,6 @@ const CsvPreviewTable = ({ data }) => {
             <div className="flex justify-center content-center">
                 {/* <div className="h-[75vh] w-1/2 overflow-x-scroll"> */}
                 <div className="h-[75vh] overflow-x-scroll">
-
-                    
-
                     <h2>CSV Data</h2>
                     <table>
                             <thead>
