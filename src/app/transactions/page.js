@@ -25,9 +25,9 @@ import {
 import TransactionsTableEditForm from './actions/transactions-table-edit-form';
 import TransactionsTableDeleteForm from './actions/transactions-table-delete-form';
 import { 
-    TransactionsTableDeleteModal,
-    TransactionsTableDeleteModalContents,
-    TransactionsTableDeleteModalOpenButton,
+    TransactionsTableDeleteModal, 
+    TransactionsTableDeleteModalContents, 
+    TransactionsTableDeleteModalOpenButton, 
     TransactionsTableDeleteModalDismissButton
 } from './actions/transactions-table-delete-modal';
 import CsvPreviewTable from './csv-preview-table';

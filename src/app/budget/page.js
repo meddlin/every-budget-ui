@@ -27,6 +27,7 @@ const Budget = () => {
                     // console.log(`Transaction - ${JSON.stringify(tr)}`)
                     console.log(`Transaction - ${JSON.stringify(tr.transactionDate)}`)
                     txns.push({ 
+                        id: tr.id,
                         amount: tr.amount, 
                         vendor: tr.vendor, 
                         date: tr.transactionDate,
@@ -39,6 +40,7 @@ const Budget = () => {
         budget && budget.uploadedTransactions ? budget.uploadedTransactions.forEach( uplTxn => {
             // console.log(JSON.stringify(uplTxn))
             txns.push({ 
+                id: uplTxn.id,
                 amount: uplTxn.amount, 
                 vendor: uplTxn.description, 
                 date: uplTxn.effectiveDate,

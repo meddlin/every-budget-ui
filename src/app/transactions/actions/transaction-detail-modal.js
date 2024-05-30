@@ -4,8 +4,7 @@ import {
     useContext,
     cloneElement,
     Fragment
-} 
-from 'react';
+} from 'react';
 import { Dialog, Transition } from '@headlessui/react'
 
 /**
