@@ -4,10 +4,8 @@ import {
     useContext,
     cloneElement,
     Fragment
-} 
-from 'react';
+} from 'react';
 import { Dialog, Transition } from '@headlessui/react'
-import { XCircleIcon } from '@heroicons/react/24/outline';
 
 /**
  * callAll will call all functions passed in, passing along any arguments
@@ -15,31 +13,31 @@ import { XCircleIcon } from '@heroicons/react/24/outline';
 const callAll = (...fns) => (...args) => fns.forEach(fn => fn && fn(...args));
 
 /**
- * TransactionsViewerModalContext is a context that will be used to share state between the TransactionsViewerModal and its children.
+ * TransactionDetailModalContext is a context that will be used to share state between the TransactionDetailModal and its children.
  */
-const TransactionsViewerModalContext = createContext();
+const TransactionDetailModalContext = createContext();
 
-const TransactionsViewerModal = (props) => {
+const TransactionDetailModal = (props) => {
     const [isOpen, setIsOpen] = useState(false)
-    return <TransactionsViewerModalContext.Provider value={[isOpen, setIsOpen]} {...props} />
+    return <TransactionDetailModalContext.Provider value={[isOpen, setIsOpen]} {...props} />
 }
 
-const TransactionsViewerModalDismissButton = ({ children: child }) => {
-    const [, setIsOpen] = useContext(TransactionsViewerModalContext)
+const TransactionDetailModalDismissButton = ({ children: child }) => {
+    const [, setIsOpen] = useContext(TransactionDetailModalContext)
     return cloneElement(child, {
         onClick: callAll(() => setIsOpen(false), child.props.onClick),
     })
 }
 
-const TransactionsViewerModalOpenButton = ({ children: child }) => {
-    const [, setIsOpen] = useContext(TransactionsViewerModalContext)
+const TransactionDetailModalOpenButton = ({ children: child }) => {
+    const [, setIsOpen] = useContext(TransactionDetailModalContext)
     return cloneElement(child, {
         onClick: callAll(() => setIsOpen(true), child.props.onClick),
     })
 }
 
-const TransactionsViewerModalContentsBase = (props) => {
-    const [isOpen, setIsOpen] = useContext(TransactionsViewerModalContext)
+const TransactionDetailModalContentsBase = (props) => {
+    const [isOpen, setIsOpen] = useContext(TransactionDetailModalContext)
     return (
         <Transition.Root show={isOpen} as={Fragment} onClose={() => setIsOpen(false)} {...props}>
             <Dialog>
@@ -80,9 +78,9 @@ const TransactionsViewerModalContentsBase = (props) => {
     )
 }
 
-const TransactionsViewerModalContents = ({ title, children, ...props }) => {
+const TransactionDetailModalContents = ({ title, children, ...props }) => {
     return (
-        <TransactionsViewerModalContentsBase {...props}>
+        <TransactionDetailModalContentsBase {...props}>
             <div className="p-20">
                 <div className="flex justify-end">
                     <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
@@ -93,8 +91,8 @@ const TransactionsViewerModalContents = ({ title, children, ...props }) => {
                 {children}
                 
             </div>
-        </TransactionsViewerModalContentsBase>
+        </TransactionDetailModalContentsBase>
     )
 }
 
-export { TransactionsViewerModal, TransactionsViewerModalOpenButton, TransactionsViewerModalDismissButton, TransactionsViewerModalContents };
+export { TransactionDetailModal, TransactionDetailModalOpenButton, TransactionDetailModalDismissButton, TransactionDetailModalContents };
