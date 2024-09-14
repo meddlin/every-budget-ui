@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
     useReactTable,
     createColumnHelper,
@@ -14,35 +14,42 @@ import {
     getFacetedMinMaxValues,
     sortingFns,
 } from "@tanstack/react-table";
+import { useTransactions } from '@/utility/fetchers';
 
 const Transactions = () => {
+    const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
+
     const columnHelper = createColumnHelper();
     const columns = [
         columnHelper.accessor('id', {
             header: () => <h3>id</h3>,
             cell: info => info.getValue()
         }),
-        columnHelper.accessor('description', {
-            header: () => <h3>Description</h3>,
+        columnHelper.accessor('dateUpdated', {
+            header: () => <h3>Date Updated</h3>,
+            cell: info => info.getValue()
+        }),
+        columnHelper.accessor('vendor', {
+            header: () => <h3>Vendor</h3>,
             cell: info => info.getValue()
         }),
         columnHelper.accessor('amount', {
             header: () => <h3>Amount</h3>,
             cell: info => info.getValue()
         }),
+        columnHelper.accessor('transactionDate', {
+            header: () => <h3>Transaction Date</h3>,
+            cell: info => info.getValue()
+        }),
+        columnHelper.accessor('budgetItemId', {
+            header: () => <h3>Budget Item Id</h3>,
+            cell: info => info.getValue()
+        }),
     ];
-
-    const data = [
-        {
-            id: '1',
-            description: 'some description',
-            amount: '10.5'
-        }
-    ]
 
     const table = useReactTable({
         columns,
-        data: (data && data.length > 0) ? data : [],
+        data: (fetchedTransactions) ? fetchedTransactions : [],
         getCoreRowModel: getCoreRowModel(),
     });
 
