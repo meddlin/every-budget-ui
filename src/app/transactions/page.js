@@ -21,13 +21,16 @@ const Transactions = () => {
 
     const columnHelper = createColumnHelper();
     const columns = [
-        columnHelper.accessor('id', {
-            header: () => <h3>id</h3>,
-            cell: info => info.getValue()
-        }),
+        // columnHelper.accessor('id', {
+        //     header: () => <h3>id</h3>,
+        //     cell: info => info.getValue()
+        // }),
         columnHelper.accessor('dateUpdated', {
             header: () => <h3>Date Updated</h3>,
-            cell: info => info.getValue()
+            cell: info => {
+                const dateUpdated = info.getValue()
+                return new Date(dateUpdated).toISOString().split('T')[0]
+            }
         }),
         columnHelper.accessor('vendor', {
             header: () => <h3>Vendor</h3>,
@@ -35,11 +38,16 @@ const Transactions = () => {
         }),
         columnHelper.accessor('amount', {
             header: () => <h3>Amount</h3>,
-            cell: info => info.getValue()
+            cell: info => {
+                return Math.round(info.getValue() * 100)/100
+            }
         }),
         columnHelper.accessor('transactionDate', {
             header: () => <h3>Transaction Date</h3>,
-            cell: info => info.getValue()
+            cell: info => {
+                const transactionDate = info.getValue()
+                return new Date(transactionDate).toISOString().split('T')[0]
+            }
         }),
         columnHelper.accessor('budgetItemId', {
             header: () => <h3>Budget Item Id</h3>,
