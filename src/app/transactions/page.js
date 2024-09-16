@@ -15,19 +15,25 @@ import {
     sortingFns,
 } from "@tanstack/react-table";
 import { useTransactions } from '@/utility/fetchers';
+import TableMonthSelector from '@/components/table-month-selector';
+import TableTagDisplay from '@/components/table-tag-display';
+import Toggle from '@/components/toggle';
 
 const Transactions = () => {
     const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
 
     const columnHelper = createColumnHelper();
     const columns = [
-        columnHelper.accessor('id', {
-            header: () => <h3>id</h3>,
-            cell: info => info.getValue()
-        }),
+        // columnHelper.accessor('id', {
+        //     header: () => <h3>id</h3>,
+        //     cell: info => info.getValue()
+        // }),
         columnHelper.accessor('dateUpdated', {
             header: () => <h3>Date Updated</h3>,
-            cell: info => info.getValue()
+            cell: info => {
+                const dateUpdated = info.getValue()
+                return new Date(dateUpdated).toISOString().split('T')[0]
+            }
         }),
         columnHelper.accessor('vendor', {
             header: () => <h3>Vendor</h3>,
@@ -35,11 +41,16 @@ const Transactions = () => {
         }),
         columnHelper.accessor('amount', {
             header: () => <h3>Amount</h3>,
-            cell: info => info.getValue()
+            cell: info => {
+                return Math.round(info.getValue() * 100)/100
+            }
         }),
         columnHelper.accessor('transactionDate', {
             header: () => <h3>Transaction Date</h3>,
-            cell: info => info.getValue()
+            cell: info => {
+                const transactionDate = info.getValue()
+                return new Date(transactionDate).toISOString().split('T')[0]
+            }
         }),
         columnHelper.accessor('budgetItemId', {
             header: () => <h3>Budget Item Id</h3>,
@@ -55,6 +66,9 @@ const Transactions = () => {
 
     return (
         <div className="flex justify-center">
+            <div>
+                <TableMonthSelector months={['2024-09', '2024-08', '2024-07']} />
+            </div>
             <table>
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -83,7 +97,7 @@ const Transactions = () => {
                             key={row.id}
                             className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
                             {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <td key={cell.id} className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
@@ -91,6 +105,17 @@ const Transactions = () => {
                     ))}
                 </tbody>
             </table>
+
+            <div>
+                <div>
+                    <div>Hide Budgeted Transactions</div>
+                    <Toggle />
+                </div>
+                <div className="pt-4">
+                    <div>Tags/Categories</div>
+                    <TableTagDisplay tags={['restaurants', 'groceries', 'gas', 'shopping', 'misc.']} />
+                </div>
+            </div>
         </div>
     );
 };
