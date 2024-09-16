@@ -15,6 +15,7 @@ import {
     sortingFns,
 } from "@tanstack/react-table";
 import { useTransactions } from '@/utility/fetchers';
+import TableMonthSelector from '@/components/table-month-selector';
 
 const Transactions = () => {
     const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
@@ -63,6 +64,9 @@ const Transactions = () => {
 
     return (
         <div className="flex justify-center">
+            <div>
+                <TableMonthSelector months={['2024-09', '2024-08', '2024-07']} />
+            </div>
             <table>
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
@@ -91,7 +95,7 @@ const Transactions = () => {
                             key={row.id}
                             className="leading-4 text-sm hover:bg-slate-100 hover:cursor-pointer">
                             {row.getVisibleCells().map(cell => (
-                                <td key={cell.id} className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                                <td key={cell.id} className="whitespace-nowrap px-3 py-2 text-sm text-gray-500">
                                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
@@ -99,6 +103,17 @@ const Transactions = () => {
                     ))}
                 </tbody>
             </table>
+
+            <div>
+                <div>Tags/Categories</div>
+                <ul>
+                    <li>Restaurants</li>
+                    <li>Groceries</li>
+                    <li>Gas</li>
+                    <li>Shopping</li>
+                    <li>Misc.</li>
+                </ul>
+            </div>
         </div>
     );
 };
