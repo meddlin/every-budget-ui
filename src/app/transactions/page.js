@@ -17,6 +17,7 @@ import {
 import { useTransactions } from '@/utility/fetchers';
 import TableMonthSelector from '@/components/table-month-selector';
 import TableTagDisplay from '@/components/table-tag-display';
+import Toggle from '@/components/toggle';
 
 const Transactions = () => {
     const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
@@ -106,8 +107,14 @@ const Transactions = () => {
             </table>
 
             <div>
-                <div>Tags/Categories</div>
-                <TableTagDisplay tags={['restaurants', 'groceries', 'gas', 'shopping', 'misc.']} />
+                <div>
+                    <div>Hide Budgeted Transactions</div>
+                    <Toggle />
+                </div>
+                <div className="pt-4">
+                    <div>Tags/Categories</div>
+                    <TableTagDisplay tags={['restaurants', 'groceries', 'gas', 'shopping', 'misc.']} />
+                </div>
             </div>
         </div>
     );
