@@ -16,6 +16,7 @@ import {
 } from "@tanstack/react-table";
 import { useTransactions } from '@/utility/fetchers';
 import TableMonthSelector from '@/components/table-month-selector';
+import TableTagDisplay from '@/components/table-tag-display';
 
 const Transactions = () => {
     const { fetchedTransactions, isLoadingTransactions, isErrorTransactions } = useTransactions();
@@ -106,13 +107,7 @@ const Transactions = () => {
 
             <div>
                 <div>Tags/Categories</div>
-                <ul>
-                    <li>Restaurants</li>
-                    <li>Groceries</li>
-                    <li>Gas</li>
-                    <li>Shopping</li>
-                    <li>Misc.</li>
-                </ul>
+                <TableTagDisplay tags={['restaurants', 'groceries', 'gas', 'shopping', 'misc.']} />
             </div>
         </div>
     );
