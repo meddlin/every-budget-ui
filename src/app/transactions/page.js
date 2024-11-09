@@ -66,9 +66,9 @@ const Transactions = () => {
 
     return (
         <div className="flex justify-center">
-            {/* <div>
+            <div>
                 <TableMonthSelector months={['2024-09', '2024-08', '2024-07']} />
-            </div> */}
+            </div>
             <div>
                 {fetchedTransactions ? (
                     <table>
