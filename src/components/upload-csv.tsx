@@ -7,18 +7,41 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
 import Papa from 'papaparse';
 
-type Transaction = {
-  date: string
-  description: string
+interface BankTransaction {
+  postingDate: string
+  effectiveDate: string
+  transactionType: string
   amount: string
-  [key: string]: string
+  checkNumber: string
+  referenceNumber: string
+  description: string
+  transactionCategory: string
+  type: string
+  balance: string
+  memo: string
+  extendedDescription: string
 }
 
 export default function CsvUploader() {
-  const [transactions, setTransactions] = useState<string[][]>([])
+  const [transactions, setTransactions] = useState<BankTransaction[]>([])
   const [headers, setHeaders] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const parseBankCsv = (csvData: string): BankTransaction[] => {
+    const parsed = Papa.parse<BankTransaction>(csvData, {
+      header: true,
+      quoteChar: '"',
+      dynamicTyping: true,
+      transformHeader: (header) => {
+        let parts = header.split(' ')
+        let first = parts[0].toLowerCase()
+        return [first, parts.slice(1)].join('')
+      }
+    });
+
+    return parsed.data;
+  }
 
   const handleFileSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -34,37 +57,23 @@ export default function CsvUploader() {
       reader.onload = (e) => {
         const content = e.target?.result as string
 
+        const typedCsvTest = parseBankCsv(content);
+        // console.log('------------------------')
+        // console.log('------------------------')
+        // console.log('------------------------')
+        // console.log(JSON.stringify(typedCsvTest))
+        // console.log('------------------------')
+        // console.log('------------------------')
+        // console.log('------------------------')
+
         const csv = Papa.parse(content, {
           quoteChar: '"'
-        }); // Papa.unparse(data[, config]);
-        console.log('------------------------')
-        console.log(JSON.stringify(csv.data[0]))
-        console.log(JSON.stringify(csv.data.slice(1)))
-        console.log(JSON.stringify(csv))
-        console.log('------------------------')
+        });
 
-        // const lines = content.split('\n')
-        
-        // if (lines.length < 2) {
-        //   setError("The CSV file appears to be empty or invalid.")
-        //   return
-        // }
-
-        const headers: string[] = csv.data[0] as string[] // lines[0].split(',').map(header => header.trim())
+        const headers: string[] = csv.data[0] as string[]
         setHeaders(headers)
 
-        // const parsedTransactions = lines.slice(1).map(line => {
-        //   const values = line.split(',')
-        //   const transaction: Transaction = {} as Transaction
-        //   headers.forEach((header, index) => {
-        //     transaction[header] = values[index]?.trim() ?? ''
-        //   })
-        //   return transaction
-        // }).filter(transaction => Object.values(transaction).some(value => value !== ''))
-
-        const parsedTransactions: string[][] = csv.data.slice(1) as string[][]
-
-        setTransactions(parsedTransactions)
+        setTransactions(typedCsvTest)
       }
       reader.readAsText(file)
     }
@@ -112,16 +121,19 @@ export default function CsvUploader() {
             <TableBody>
               {transactions.map((transaction, index) => (
                 <TableRow key={index}>
-                  {transaction.map((item, i_index) => (
-                    <TableCell key={i_index}>{item}</TableCell>
-                  ))}
+                  <TableCell>{transaction.postingDate}</TableCell>
+                  <TableCell>{transaction.effectiveDate}</TableCell>
+                  <TableCell>{transaction.transactionType}</TableCell>
+                  <TableCell>{transaction.amount}</TableCell>
+                  <TableCell>{transaction.checkNumber}</TableCell>
+                  <TableCell>{transaction.referenceNumber}</TableCell>
+                  <TableCell>{transaction.description}</TableCell>
+                  <TableCell>{transaction.transactionCategory}</TableCell>
+                  <TableCell>{transaction.type}</TableCell>
+                  <TableCell>{transaction.balance}</TableCell>
+                  <TableCell>{transaction.memo}</TableCell>
+                  <TableCell>{transaction.extendedDescription}</TableCell>
                 </TableRow>
-
-                // <TableRow key={index}>
-                //   {headers.map((header: any, cellIndex) => (
-                //     <TableCell key={cellIndex}>{transaction[header]}</TableCell>
-                //   ))}
-                // </TableRow>
               ))}
             </TableBody>
           </Table>
