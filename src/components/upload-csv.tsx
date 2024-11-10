@@ -5,21 +5,45 @@ import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle } from "lucide-react"
+import Papa from 'papaparse';
 
-type Transaction = {
-  date: string
-  description: string
+interface BankTransaction {
+  postingDate: string
+  effectiveDate: string
+  transactionType: string
   amount: string
-  [key: string]: string
+  checkNumber: string
+  referenceNumber: string
+  description: string
+  transactionCategory: string
+  type: string
+  balance: string
+  memo: string
+  extendedDescription: string
 }
 
 export default function CsvUploader() {
-  const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [transactions, setTransactions] = useState<BankTransaction[]>([])
   const [headers, setHeaders] = useState<string[]>([])
   const [error, setError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const parseBankCsv = (csvData: string): BankTransaction[] => {
+    const parsed = Papa.parse<BankTransaction>(csvData, {
+      header: true,
+      quoteChar: '"',
+      dynamicTyping: true,
+      transformHeader: (header) => {
+        let parts = header.split(' ')
+        let first = parts[0].toLowerCase()
+        return [first, parts.slice(1)].join('')
+      }
+    });
+
+    return parsed.data;
+  }
+
+  const handleFileSelection = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     setError(null)
 
@@ -32,26 +56,24 @@ export default function CsvUploader() {
       const reader = new FileReader()
       reader.onload = (e) => {
         const content = e.target?.result as string
-        const lines = content.split('\n')
-        
-        if (lines.length < 2) {
-          setError("The CSV file appears to be empty or invalid.")
-          return
-        }
 
-        const headers = lines[0].split(',').map(header => header.trim())
+        const typedCsvTest = parseBankCsv(content);
+        // console.log('------------------------')
+        // console.log('------------------------')
+        // console.log('------------------------')
+        // console.log(JSON.stringify(typedCsvTest))
+        // console.log('------------------------')
+        // console.log('------------------------')
+        // console.log('------------------------')
+
+        const csv = Papa.parse(content, {
+          quoteChar: '"'
+        });
+
+        const headers: string[] = csv.data[0] as string[]
         setHeaders(headers)
 
-        const parsedTransactions = lines.slice(1).map(line => {
-          const values = line.split(',')
-          const transaction: Transaction = {} as Transaction
-          headers.forEach((header, index) => {
-            transaction[header] = values[index]?.trim() ?? ''
-          })
-          return transaction
-        }).filter(transaction => Object.values(transaction).some(value => value !== ''))
-
-        setTransactions(parsedTransactions)
+        setTransactions(typedCsvTest)
       }
       reader.readAsText(file)
     }
@@ -64,16 +86,18 @@ export default function CsvUploader() {
   return (
     <div className="container mx-auto p-4">
       <h1 className="text-2xl font-bold mb-4">Bank Transaction CSV Uploader</h1>
-      <div className="mb-4">
+      <div className="mb-4 flex flex-row justify-between items-center">
         <input
           type="file"
           accept=".csv"
-          onChange={handleFileUpload}
+          onChange={handleFileSelection}
           className="sr-only"
           ref={fileInputRef}
-          aria-label="Upload CSV file"
+          aria-label="Select CSV file"
         />
-        <Button onClick={handleButtonClick}>Upload CSV</Button>
+        <Button onClick={handleButtonClick}>Select CSV</Button>
+
+        <Button onClick={() => alert('clicked upload')}>Upload</Button>
       </div>
       
       {error && (
@@ -97,9 +121,18 @@ export default function CsvUploader() {
             <TableBody>
               {transactions.map((transaction, index) => (
                 <TableRow key={index}>
-                  {headers.map((header, cellIndex) => (
-                    <TableCell key={cellIndex}>{transaction[header]}</TableCell>
-                  ))}
+                  <TableCell>{transaction.postingDate}</TableCell>
+                  <TableCell>{transaction.effectiveDate}</TableCell>
+                  <TableCell>{transaction.transactionType}</TableCell>
+                  <TableCell>{transaction.amount}</TableCell>
+                  <TableCell>{transaction.checkNumber}</TableCell>
+                  <TableCell>{transaction.referenceNumber}</TableCell>
+                  <TableCell>{transaction.description}</TableCell>
+                  <TableCell>{transaction.transactionCategory}</TableCell>
+                  <TableCell>{transaction.type}</TableCell>
+                  <TableCell>{transaction.balance}</TableCell>
+                  <TableCell>{transaction.memo}</TableCell>
+                  <TableCell>{transaction.extendedDescription}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
